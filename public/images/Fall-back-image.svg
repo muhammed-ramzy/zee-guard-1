@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a1d"/>
+      <stop offset="100%" stop-color="#3a0508"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#e2222b" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#e2222b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="900" height="600" fill="url(#g)"/>
+  <rect width="900" height="600" fill="url(#glow)"/>
+  <g opacity="0.15">
+    <path d="M0 390.0 Q 225.0 330.0 450.0 390.0 T 900 390.0" stroke="#e2222b" stroke-width="2" fill="none"/>
+  </g>
+  <text x="50%" y="48%" text-anchor="middle" font-family="Arial, sans-serif" font-size="33.0" fill="#ffffff" font-weight="700" opacity="0.9">ZEEGUARD</text>
+  <text x="50%" y="56%" text-anchor="middle" font-family="Arial, sans-serif" font-size="18.0" fill="#f0b94a" letter-spacing="2" opacity="0.85">CUSTOM FIT MOUTHGUARD</text>
+</svg>

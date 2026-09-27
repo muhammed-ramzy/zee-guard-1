@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="460" viewBox="0 0 600 460">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141416"/>
+      <stop offset="100%" stop-color="#0a0a0b"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="460" fill="url(#g)"/>
+  <rect width="600" height="460" fill="url(#glow)"/>
+  <g opacity="0.15">
+    <path d="M0 299.0 Q 150.0 253.00000000000003 300.0 299.0 T 600 299.0" stroke="#22c55e" stroke-width="2" fill="none"/>
+  </g>
+  <text x="50%" y="48%" text-anchor="middle" font-family="Arial, sans-serif" font-size="25.3" fill="#ffffff" font-weight="700" opacity="0.9">DESIGNFLEX</text>
+  <text x="50%" y="56%" text-anchor="middle" font-family="Arial, sans-serif" font-size="13.799999999999999" fill="#f0b94a" letter-spacing="2" opacity="0.85">MOST POPULAR</text>
+</svg>

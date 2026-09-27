@@ -1,0 +1,416 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-ink-600: #3a3a3f;
+  --color-ink-700: #26262a;
+  --color-ink-750: #1e1e21;
+  --color-ink-800: #18181b;
+  --color-ink-850: #131315;
+  --color-ink-900: #0e0e10;
+  --color-ink-950: #0a0a0b;
+
+  --color-blaze-400: #f0464e;
+  --color-blaze-500: #e2222b;
+  --color-blaze-600: #c81820;
+  --color-blaze-700: #a10f16;
+  --color-blaze-900: #4a0509;
+
+  --color-gold-300: #f8d27a;
+  --color-gold-400: #F4B223;
+  --color-gold-500: #e8a52f;
+  --color-gold-600: #c78619;
+
+  --color-steel-400: #8b8b93;
+  --color-steel-500: #6b6b73;
+
+  --color-my-pink: #E8BCB8;
+  --color-my-darker-pink: #b49998;
+  --color-my-hovered-pink: #E6CCCA;
+  --color-my-icon-pink: #FFB4AB;
+  --color-my-wine-red: #690006;
+  --color-my-Graphite: #353534;
+  --color-stone : #E5E2E1;
+  --color-dark-stone : #747676;
+  --color-athletes-carousel-button : #CDB3B3;
+  --color-pricing-recommend : #917774;
+  --color-contact-gold: #FEBB2D;
+
+  --font-display: var(--font-anton), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+
+  --shadow-glow-blaze: 0 0 40px -8px rgba(226, 34, 43, 0.55);
+  --shadow-glow-gold: 0 0 30px -6px rgba(232, 165, 47, 0.45);
+  --shadow-glow-pink: 0 0 20px -6px rgba(255, 180, 171, 0.55);
+  --shadow-card: 0 0 35px rgba(168, 7, 16, 0.34);;
+
+  --background-image-blaze-gradient: linear-gradient(
+    180deg,
+    #f0464e 0%,
+    #c81820 60%,
+    #7c0d12 100%
+  );
+  --background-image-radial-fade: radial-gradient(
+    ellipse at center,
+    rgba(226, 34, 43, 0.25) 0%,
+    transparent 70%
+  );
+
+  --animate-pulse-glow: pulse-glow 2.5s ease-in-out infinite;
+  --animate-fade-up: fade-up 0.6s ease-out both;
+  --animate-mouthguard: mouthguard 4s ease-in-out infinite;
+
+  --tracking-widest2: 0.2em;
+
+
+
+
+  @keyframes mouthguard {
+    0%, 100% {
+      transform: translateY(0) rotate(-1deg);
+    }
+
+    50% {
+      transform: translateY(-10px) rotate(1deg);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+  
+}
+
+@utility container-page {
+  @apply mx-auto sm:w-11/12 xl:w-10/12  px-6;
+}
+
+@utility section-y {
+  @apply py-16 md:py-24;
+}
+
+@utility divider-accent {
+  @apply mx-auto h-1 w-16 group-hover:w-25 transition-all duration-300 rounded-full bg-blaze-500;
+}
+
+/* Scroll bar for Designer page */
+@utility custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #E8A4A0 #1a1a2e;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #1a1a2e;
+    border-radius: 9999px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #E8A4A0;
+    border-radius: 9999px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #d48a86;
+  }
+}
+
+/* input spinner arrows */
+
+@utility no-spinners {
+  appearance: textfield;
+  
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+}
+
+@utility number-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+@utility number-arrows {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-inline-end: 0.5rem;
+  gap: 0.125rem;
+}
+
+@utility number-arrow-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1rem;
+  color: #E8BCB8;
+  background: transparent;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 150ms;
+  font-size: 0.625rem;
+  line-height: 1;
+  padding: 0;
+  margin-top: 2px;
+  
+  &:hover {
+    color: #d4a8a4;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+@utility custom-number-input {
+  @apply no-spinners;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink-950 text-white font-body antialiased;
+  }
+
+  ::selection {
+    @apply bg-blaze-600 text-white;
+  }
+
+  /* Visible keyboard focus everywhere */
+  :focus-visible {
+    @apply outline-hidden ring-2 ring-blaze-500 ring-offset-2 ring-offset-ink-950;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.embla {
+  max-width: 70rem;
+  margin: auto;
+
+  --slide-height: 19rem;
+  --slide-spacing: 1rem;
+  --slide-size: 100%;
+  --slide-spacing-sm: 1.6rem;
+  --slide-size-sm: 50%;
+  --slide-spacing-lg: 2rem;
+  --slide-size-lg: calc(100% / 3);
+}
+
+.embla__viewport {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+
+@media (min-width: 750px) {
+  .embla__container {
+    margin-left: calc(var(--slide-spacing-sm) * -1);
+  }
+}
+@media (min-width: 1200px) {
+  .embla__container {
+    margin-left: calc(var(--slide-spacing-lg) * -1);
+  }
+}
+
+.embla__slide {
+  min-width: 0;
+  flex: 0 0 var(--slide-size);
+  padding-left: var(--slide-spacing);
+}
+
+@media (min-width: 750px) {
+  .embla__slide {
+    flex: 0 0 var(--slide-size-sm);
+    padding-left: var(--slide-spacing-sm);
+  }
+}
+@media (min-width: 1200px) {
+  .embla__slide {
+    flex: 0 0 var(--slide-size-lg);
+    padding-left: var(--slide-spacing-lg);
+  }
+}
+
+.embla__slide__number {
+  border: 0.2rem solid var(--detail-medium-contrast);
+  border-radius: 1.8rem;
+  font-size: 4rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--slide-height);
+  user-select: none;
+}
+
+.embla__controls {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: 1.8rem;
+}
+
+.embla__buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.embla__button {
+  -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  border: 0.2rem solid var(--detail-medium-contrast);
+  width: 3.6rem;
+  height: 3.6rem;
+
+  z-index: 1;
+  border-radius: 50%;
+  color: var(--text-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(0deg);
+}
+
+.embla__button--disabled {
+  color: var(--detail-high-contrast);
+}
+
+.embla__button__svg {
+  width: 35%;
+  height: 35%;
+}
+
+.embla__dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: calc((2.6rem - 1.4rem) / 2 * -1);
+}
+
+.embla__dot {
+  -webkit-tap-highlight-color: rgba(var(--text-high-contrast-rgb-value), 0.5);
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  touch-action: manipulation;
+  display: inline-flex;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 2.6rem;
+  height: 2.6rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  position: relative;
+}
+
+.embla__dot:before,
+.embla__dot:after {
+  width: 1.4rem;
+  height: 1.4rem;
+
+  border-radius: 50%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  content: '';
+}
+
+.embla__dot:before {
+  border: 0.2rem solid var(--detail-medium-contrast);
+}
+
+.embla__dot:after {
+  border: 0.2rem solid var(--text-body);
+  opacity: 0;
+}
+
+.embla__dot--selected:after {
+  opacity: 1;
+}
