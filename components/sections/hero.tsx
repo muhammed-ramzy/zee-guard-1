@@ -10,7 +10,7 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden">
       {/* Background image */}
-      <div className="absolute inset-0 bg-[url('/images/logo-transparent.png')] bg-top sm:bg-center bg-no-repeat bg-size-[auto_650px]  sm:bg-size-[auto_1300px]"  />
+      <div className="absolute inset-0 bg-[url('/images/logo-transparent.webp')] bg-top sm:bg-center bg-no-repeat bg-size-[auto_650px]  sm:bg-size-[auto_1300px]"  />
 
       {/* First color layer */}
       <div className="absolute inset-0 bg-[#200002]/88" />
@@ -32,7 +32,7 @@ export function Hero() {
 
         <div className="animate-mouthguard relative mx-auto w-full max-w-xl">
           <Image
-            src="/images/logo black.png"
+            src="/images/logo-black.webp"
             alt="ZeeGuard custom-fit mouthguard, black with silver crest logo"
             width={900}
             height={600}

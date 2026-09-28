@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import clinic from "@/assets/images/clinic.png"
+import clinic from "@/assets/images/clinic.webp"
 import { Container, Section } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { ContactMethodCard } from "@/components/ui/contact-method-card";

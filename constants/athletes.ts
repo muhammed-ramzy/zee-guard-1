@@ -1,8 +1,8 @@
 import { Athlete, StatItem, Testimonial } from "@/types";
-import karamGaber from "@/assets/images/athletes/karam-gaber.png";
-import zyadElgharib from "@/assets/images/athletes/Zyad Elghareeb.png";
-import ali from "@/assets/images/athletes/Ali Hassan.png";
-import hossam from "@/assets/images/athletes/Hossam Mahmoud.png";
+import karamGaber from "@/assets/images/athletes/karam-gaber.webp";
+import zyadElgharib from "@/assets/images/athletes/karam-gaber.webp";
+import ali from "@/assets/images/athletes/karam-gaber.webp";
+import hossam from "@/assets/images/athletes/karam-gaber.webp";
 
 
 export const ATHLETE_STATS: StatItem[] = [

@@ -9,7 +9,7 @@ import img8 from "./8.webp";
 import img9 from "./9.webp";
 import img10 from "./10.webp";
 import img11 from "./11.webp";
-import img12 from "./12.png";
+// import img12 from "./12.png";
 import img13 from "./13.webp";
 import img14 from "./14.webp";
 import img15 from "./15.webp";
@@ -126,16 +126,16 @@ const designs = [
     featured: false,
     size: "normal",
   },
-  {
-    id: "comic-based-12",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "comic-based",
-    image: img12,
-    featured: false,
-    size: "normal",
-  },
+  // {
+  //   id: "comic-based-12",
+  //   title: "",
+  //   subtitle: "",
+  //   tag: "",
+  //   categoryId: "comic-based",
+  //   image: img12,
+  //   featured: false,
+  //   size: "normal",
+  // },
   {
     id: "comic-based-13",
     title: "",

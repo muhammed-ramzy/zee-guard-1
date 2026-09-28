@@ -8,9 +8,9 @@ import { AVAILABLE_COLORS } from "@/constants/pricing";
 import { inter, oswald } from "@/app/fonts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import corefitImage from "@/assets/images/categories/corefit.png";
-import designFlexImage from "@/assets/images/categories/DesignFlex.png";
-import fusionImage from "@/assets/images/categories/fusion.png";
+// import corefitImage from "@/assets/images/categories/corefit.png";
+import designFlexImage from "@/assets/images/categories/DesignFlex.webp";
+import fusionImage from "@/assets/images/categories/DesignFlex.webp";
 import { useEffect, useRef, useState } from "react";
 
 const BADGE_STYLES: Record<PricingTier["badgeVariant"], string> = {
@@ -20,7 +20,7 @@ const BADGE_STYLES: Record<PricingTier["badgeVariant"], string> = {
 };
 
 const IMAGE_MAP: Record<string, StaticImageData> = {
-  corefit: corefitImage,
+  corefit: designFlexImage,
   designflex: designFlexImage,
   fusion: fusionImage,
 };
