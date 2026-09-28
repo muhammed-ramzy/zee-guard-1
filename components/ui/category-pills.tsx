@@ -3,6 +3,7 @@
 import { inter } from "@/app/fonts";
 import { cn } from "@/lib/utils";
 import { DesignCategory } from "@/types";
+import { motion } from "motion/react"
 
 interface CategoryPillsProps {
   categories: DesignCategory[];
@@ -17,10 +18,10 @@ interface CategoryPillsProps {
 export function CategoryPills({ categories, activeId, onChange }: CategoryPillsProps) {
   return (
     <div className="flex  overflow-x-auto whitespace-nowrap w-full  lg:justify-center scrollbar-auto [&::-webkit-scrollbar]:hidden  gap-3" role="tablist" aria-label="Design categories">
-      {categories.map((category) => {
+      {categories.map((category, i) => {
         const active = category.id === activeId;
         return (
-          <button
+          <motion.button
             key={category.id}
             type="button"
             role="tab"
@@ -33,9 +34,17 @@ export function CategoryPills({ categories, activeId, onChange }: CategoryPillsP
                 : "border-white/15 text-white/80 hover:border-white/40",
               !onChange && "cursor-default", inter.className
             )}
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeOut",
+              delay: i * 0.05,
+            }}
           >
             {category.label}
-          </button>
+          </motion.button>
         );
       })}
     </div>

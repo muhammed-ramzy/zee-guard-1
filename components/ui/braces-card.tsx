@@ -6,8 +6,7 @@ import { AVAILABLE_COLORS } from "@/constants/pricing";
 import { cn } from "@/lib/utils";
 import { inter, oswald } from "@/app/fonts";
 import { useEffect, useRef, useState } from "react";
-import { Island_Moments } from "next/font/google";
-
+import {motion} from 'motion/react'
 interface BracesCardProps {
   badge: string;
   badgeTone: "blaze" | "gray";
@@ -200,13 +199,21 @@ export function BracesCard({
   }, [chosenTier, isLower, upperSelectedData.addOns, lowerSelectedData.addOns]);
 
   return (
-    <div
+    <motion.div
       className={cn(
         "flex flex-col overflow-hidden border border-transparent bg-ink-850",
         direction == "left"
           ? "rounded-l-2xl border-l-white/10"
           : "rounded-r-2xl border-r-white/10",
       )}
+      initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeOut",
+              delay: 0.05,
+            }}
     >
       <div className="relative h-56 w-full sm:h-72">
         <span
@@ -367,6 +374,6 @@ export function BracesCard({
           </span>
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 }

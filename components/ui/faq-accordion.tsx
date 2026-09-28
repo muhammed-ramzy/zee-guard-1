@@ -5,7 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { FaqItem } from "@/types";
 import { inter, oswald } from "@/app/fonts";
-
+import {motion} from 'motion/react'
 interface FaqAccordionProps {
   items: FaqItem[];
 }
@@ -21,9 +21,17 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
         const buttonId = `faq-button-${index}`;
 
         return (
-          <div
+          <motion.div
             key={item.question}
             className="overflow-hidden rounded-lg border border-white/10 bg-ink-850 hover:brightness-130 tracking-wide"
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeOut",
+              delay: index * 0.07,
+            }}
           >
             <h3>
               <button
@@ -60,7 +68,7 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         );
       })}
     </div>

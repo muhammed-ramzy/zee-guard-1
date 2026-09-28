@@ -9,7 +9,7 @@ export function ContactMethodCard({ method, icon }: { method: ContactMethod, ico
   const isExternal = method.href.startsWith("http");
 
   return (
-    <div className={cn("flex flex-col gap-4 rounded-xl border border-white/10 bg-ink-850 p-7 text-base md:w-100 w-90", inter.className)}>
+    <div className={cn("flex flex-col gap-4 rounded-xl border border-white/10 bg-ink-850 p-7 text-base md:w-100 w-90 h-60", inter.className)}>
       <span className="flex h-11 w-11 items-center justify-center rounded-lg text-white">
         <FontIcon fontIcon={icon} className="w-10" />
       </span>

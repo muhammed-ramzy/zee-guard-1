@@ -1,6 +1,9 @@
+'use client'
+
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { GalleryDesign } from "@/types";
+import {motion} from "motion/react"
 
 interface GalleryCardProps {
   design: GalleryDesign;
@@ -10,11 +13,19 @@ interface GalleryCardProps {
 
 export function GalleryCard({ design, className }: GalleryCardProps) {
   return (
-    <article
+    <motion.article
       className={cn(
         "group relative overflow-hidden rounded-xl border border-white/10 bg-ink-850",
         className,
       )}
+      initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeOut",
+              delay: 0.05,
+            }}
     >
       <div className="absolute inset-0 bg-[#000000]" />
       <div className={cn("relative w-full", className)}>
@@ -40,6 +51,6 @@ export function GalleryCard({ design, className }: GalleryCardProps) {
         </h3>
         <p className="mt-1 text-sm text-steel-400">{design.subtitle}</p>
       </div>
-    </article>
+    </motion.article>
   );
 }

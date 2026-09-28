@@ -1,9 +1,8 @@
-import Link from "next/link";
-import { FontAwesomeIcon } from "@/node_modules/@fortawesome/react-fontawesome";
+import Link from "next/link"; 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
-import instagram from "@/assets/images/instagram.svg";
+import {navBarLogo} from "@/constants/icons"
 import { copperplate, inter } from "@/app/fonts";
 
 library.add(fab);
@@ -39,7 +38,7 @@ export function Footer() {
         <div className="flex flex-col justify-between items-center md:items-start h-full">
           <div className="flex items-center gap-2">
             <Image
-              src={"/images/logo-black.webp"}
+              src={navBarLogo}
               alt="zeeguard logo"
               width={50}
               height={50}
@@ -58,9 +57,11 @@ export function Footer() {
             </Link>
           </div>
           <p className="mt-4 text-sm text-steel-400">
-            © 2025 ZeeGuard.
+            © 2025 ZeeGuard. All rights reserved.
             <br />
             Engineered for the Elite.
+            <br />
+            {/* Developed by <a href="https://www.linkedin.com/in/muhammed-ramzy" className="hover:text-blue-700">Muhammed Ramzy</a> */}
           </p>
         </div>
 
@@ -85,7 +86,7 @@ export function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3  text-white/90 transition-colors hover:text-blaze-400"
+                className="flex items-center justify-between gap-5  text-white/90 transition-colors hover:text-blaze-400"
               >
                 <span className="w-6">
                   <FontIcon fontIcon={social.icon} className={social.color}/>

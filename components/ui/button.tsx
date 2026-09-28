@@ -1,7 +1,9 @@
+'use client'
 import { ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { oswald } from "@/app/fonts";
+import {motion} from 'motion/react'
 
 type ButtonVariant =
   | "solid"

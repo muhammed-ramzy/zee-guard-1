@@ -8,6 +8,7 @@ import { TestimonialsSection } from "@/components/sections/testimonials";
 import { Faq } from "@/components/sections/faq";
 import { CtaBanner } from "@/components/sections/cta-banner";
 
+
 export default function HomePage() {
   return (
     <>

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/constants/nav";
 import { cn } from "@/lib/utils";
+import {navBarLogo} from "@/constants/icons"
 import {lato, copperplate} from '@/app/fonts'
 
 
@@ -19,7 +20,7 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-ink-950/95 backdrop-blur-sm">
       <div className="container-page flex h-16 items-center justify-between">
         <div className="flex items-center justify-between gap-2">
-        <Image src={"/logo.svg"} alt="zeeguard logo" width={50} height={50}/>
+        <Image src={navBarLogo} alt="zeeguard logo" width={50} height={50}/>
         <Link href="/" className={cn("flex  font-display items-baseline",copperplate.className)}>
           <span className="text-blaze-500 text-[30px]">Z</span>
           <span className="text-white text-[21px]">EE</span>

@@ -1,11 +1,12 @@
-import { Instagram } from "lucide-react";
+"use client";
+
+import { motion } from "motion/react";
 import { Container, Section } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { inter, oswald } from "@/app/fonts";
 import { cn } from "@/lib/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-import { Span } from "next/dist/trace";
 
 interface CtaBannerProps {
   title?: string;
@@ -20,34 +21,49 @@ export function CtaBanner({
   return (
     <Section>
       <Container className="flex flex-col items-center gap-6 text-center">
-        <h2
+        <motion.h2
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
           className={cn(
-            "font-display md:text-7xl uppercase text-stone text-4xl text-balance font-bold  tracking-tight",
+            "font-display text-4xl font-bold uppercase tracking-tight text-stone text-balance md:text-7xl",
             oswald.className,
           )}
         >
           {title}
-        </h2>
-        <p className={cn("text-balance text-my-pink", inter.className)}>
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.55, ease: "easeOut", delay: 0.08 }}
+          className={cn("text-balance text-my-pink", inter.className)}
+        >
           {subtitle}
-        </p>
+        </motion.p>
 
-        <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.55, ease: "easeOut", delay: 0.12 }}
+          className="flex flex-wrap items-center justify-center gap-4 pt-2"
+        >
           <Button>Create My Own Design</Button>
 
-            <Button
-              href="https://wa.me/201124081447"
-              variant="outline-white"
-              icon={
-                <span className="w-7 text-[#25D366]">
-                  <FontAwesomeIcon icon={fab.faWhatsapp} />
-                </span>
-              }
-            >
-              Message Us on WhatsApp
-            </Button>
-       
-        </div>
+          <Button
+            href="https://wa.me/201124081447"
+            variant="outline-white"
+            icon={
+              <span className="w-7 text-[#25D366]">
+                <FontAwesomeIcon icon={fab.faWhatsapp} />
+              </span>
+            }
+          >
+            Message Us on WhatsApp
+          </Button>
+        </motion.div>
       </Container>
     </Section>
   );

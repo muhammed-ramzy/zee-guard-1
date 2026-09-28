@@ -1,7 +1,5 @@
-import Image from "next/image";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import instagram from "@/assets/images/instagram.svg";
 import { fontIcon } from "@/types";
 
 
@@ -11,14 +9,14 @@ export default function FontIcon({fontIcon, className}: {fontIcon: fontIcon, cla
     return (
         <>
             <span className={className}>
-            {fontIcon == "facebook" && <span className="text-[#1877F2]">
+            {fontIcon == "facebook" && <span className="text-[#1877F2] text-3xl ">
                   <FontAwesomeIcon icon={fab.faFacebook} />
                 </span>}
-            {fontIcon == "whatsapp" && <span className="text-[#25D366]">
+            {fontIcon == "whatsapp" && <span className="text-[#25D366] text-3xl">
                   <FontAwesomeIcon icon={fab.faWhatsapp} />
                 </span>}
             {fontIcon == "instagram" && <span className="">
-                  <Image src={instagram} alt={"Instagram account"} />
+                <FontAwesomeIcon icon={fab.faInstagram} className="text-blaze-400 text-3xl" />
                 </span>}
             </span>
         </>

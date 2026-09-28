@@ -5,7 +5,6 @@ import { PageHeader } from "@/components/sections/page-header";
 import { PricingCard } from "@/components/ui/pricing-card";
 import { BracesCard } from "@/components/ui/braces-card";
 import { CtaBanner } from "@/components/sections/cta-banner";
-import { Button } from "@/components/ui/button";
 import {
   CORE_TIERS,
   UPPER_JAW_OPTIONS,
@@ -35,12 +34,13 @@ export default function CategoriesPage() {
       <Section>
         <Container>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {CORE_TIERS.map((tier) => (
+            {CORE_TIERS.map((tier, i) => (
               <PricingCard
                 key={tier.id}
                 tier={tier}
                 highlighted={tier.badgeVariant === "popular"}
                 addOns = {ADD_ONS}
+                number={i + 1}
               />
             ))}
           </div>
