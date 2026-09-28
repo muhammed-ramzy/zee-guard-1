@@ -188,7 +188,8 @@ export function DesignerStudio() {
       lowerTierName || lowerModel || LOWER_JAW_OPTIONS[0].name;
     const hasLowerBraceSelection =
       includeLowerGuard ||
-      Boolean((sessionStorage.getItem("Lower tier") || "").trim());
+      (typeof window !== "undefined" &&
+        Boolean((sessionStorage.getItem("Lower tier") || "").trim()));
 
     const basePrice = getPriceForModel(upperTierName || model);
     console.log(basePrice);
