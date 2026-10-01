@@ -4,6 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { fontVariables } from './fonts';
 import "./globals.css";
 import ScrollToTopButton from "@/components/ui/up-button";
+import SocilaMediaIcons from "@/components/ui/socialMediaIcons";
 
 
 export const metadata: Metadata = {
@@ -35,6 +36,7 @@ export default function RootLayout({
           {children}
           </main>
         <ScrollToTopButton/>
+        <SocilaMediaIcons/>
         <Footer />
       </body>
     </html>
