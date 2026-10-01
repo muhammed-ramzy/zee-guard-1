@@ -61,7 +61,7 @@ export function Footer() {
             <br />
             Engineered for the Elite.
             <br />
-            {/* Developed by <a href="https://www.linkedin.com/in/muhammed-ramzy" className="hover:text-blue-700">Muhammed Ramzy</a> */}
+            Developed by <a href="https://www.linkedin.com/in/muhammed-ramzy" className="hover:text-blue-700">Muhammed Ramzy</a>
           </p>
         </div>
 

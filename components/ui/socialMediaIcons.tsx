@@ -36,7 +36,7 @@ export default function SocilaMediaIcons() {
       </button>
       <AnimatePresence initial={false}>
         {isOpen && (
-          <div className="flex flex-row-reverse gap-2 sm:hidden">
+          <div className="flex flex-row-reverse gap-2 sm:hidden ">
             {CONTACT_METHODS.map((social, index) => (
               <motion.a
                 key={social.title}

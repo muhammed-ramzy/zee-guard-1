@@ -72,13 +72,11 @@ export function DesignerStudio() {
 
     if (!normalized) return null;
 
-    const allOptions = isBracesSelection
-      ? [...UPPER_JAW_OPTIONS, ...LOWER_JAW_OPTIONS]
-      : [
-          ...CORE_TIERS.flatMap((tier) => tier.options),
-          ...UPPER_JAW_OPTIONS,
-          ...LOWER_JAW_OPTIONS,
-        ];
+    const allOptions = [
+      ...CORE_TIERS.flatMap((tier) => tier.options),
+      ...UPPER_JAW_OPTIONS,
+      ...LOWER_JAW_OPTIONS,
+    ];
 
     return (
       allOptions.find(
@@ -95,7 +93,7 @@ export function DesignerStudio() {
   };
 
   const getRecommendedForModel = (selectedModel: string) => {
-    const normalized = selectedModel.trim();
+    const normalized = selectedModel.replace("(Braces)", "").trim();
     if (!normalized) return "";
 
     const allOptions = [
@@ -316,7 +314,14 @@ export function DesignerStudio() {
     let nextModel = selectedUpperModel;
 
     if (isBraces) {
-      nextModel = upperTier || actualUpperModel;
+      nextModel =
+        MODELS.find(
+          (designerModel) =>
+            designerModel
+              .replace("(Braces)", "")
+              .trim()
+              .toLowerCase() === selectedUpperModel.toLowerCase(),
+        ) ?? selectedUpperModel;
     } else if (
       selectedCategory &&
       selectedCategory.toLowerCase() === "fusion"
