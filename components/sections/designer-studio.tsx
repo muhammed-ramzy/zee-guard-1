@@ -1833,7 +1833,7 @@ export function DesignerStudio() {
           </div>
         </div>
 
-        <p className="text-center md:text-xs text-[11px] text-stone whitespace-nowrap">
+        <p className="text-center md:text-xs text-[10.5px] text-stone ">
           {selectedEl
             ? `${selectedEl.type === "image" ? "Image" : "Text"} selected — ${isTouchDevice ? "drag to move, pinch to resize, rotate with two fingers" : "drag to move, use handles to resize and rotate"}`
             : "Tap an element to select it, or use the panel to add new ones"}
