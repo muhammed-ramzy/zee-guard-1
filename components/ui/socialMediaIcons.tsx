@@ -14,9 +14,9 @@ export default function SocilaMediaIcons() {
     <nav
       aria-label="Social media"
       className={cn(
-        "fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] right-2 z-50 flex max-w-[calc(100vw-1.5rem)] flex-row-reverse items-center gap-2 transition-all duration-300 ease-out sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:flex-col sm:rounded-full sm:border sm:border-white/20 sm:bg-white/10 sm:p-2 sm:shadow-[0_8px_32px_rgba(0,0,0,0.35)] sm:ring-1 sm:ring-inset sm:ring-white/10 sm:backdrop-blur-xl sm:backdrop-saturate-150 cursor-pointer",
+        "fixed bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] right-2 z-50 flex max-w-[calc(100vw-1.5rem)] flex-row-reverse items-center gap-2 rounded-full border border-transparent bg-transparent p-0 shadow-none ring-1 ring-inset ring-transparent transition-all duration-300 ease-out sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:flex-col sm:border-white/20 sm:bg-white/10 sm:p-2 sm:shadow-[0_8px_32px_rgba(0,0,0,0.35)] sm:ring-white/10 sm:backdrop-blur-xl sm:backdrop-saturate-150 cursor-pointer",
         isOpen &&
-          "rounded-full border border-white/20 bg-white/10 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.35)] ring-1 ring-inset ring-white/10 backdrop-blur-xl backdrop-saturate-150",
+          "border-white/20 bg-white/10 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.35)] ring-white/10 backdrop-blur-xl",
       )}
     >
       <button
