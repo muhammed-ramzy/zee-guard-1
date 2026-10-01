@@ -8,7 +8,13 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { RotateCcw, Download, Trash2, Type, ImagePlus } from "lucide-react";
+import {
+  RotateCcw,
+  Download,
+  Trash2,
+  Type,
+  ImagePlus,
+} from "lucide-react";
 import { FONT_FAMILIES } from "@/app/fonts";
 import { cn } from "@/lib/utils";
 import {
@@ -1354,6 +1360,8 @@ export function DesignerStudio() {
 
   const [showAthleteNameError, setShowAthleteNameError] = useState(false);
   const athleteNameInputRef = useRef<HTMLInputElement>(null);
+  const [isExportingPng, setIsExportingPng] = useState(false);
+  const [pngExportError, setPngExportError] = useState<string | null>(null);
 
   const downloadPng = async () => {
     if (!athleteName.trim()) {
@@ -1744,11 +1752,56 @@ export function DesignerStudio() {
       }
     }
 
-    // Download
+    const blob = await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob((result) => {
+        if (result) resolve(result);
+        else reject(new Error("PNG encoding failed"));
+      }, "image/png");
+    });
+    const fileName = `zeeguard-${(athleteName || "design").toLowerCase().replace(/\s+/g, "-")}.png`;
+    const shareApi = navigator as Omit<Navigator, "share" | "canShare"> & {
+      share?: (data: ShareData) => Promise<void>;
+      canShare?: (data?: ShareData) => boolean;
+    };
+    const file = new File([blob], fileName, { type: "image/png" });
+    const isIPhone = /iPhone/i.test(navigator.userAgent);
+    const canShareFile =
+      isIPhone &&
+      typeof shareApi.share === "function" &&
+      typeof shareApi.canShare === "function" &&
+      shareApi.canShare({ files: [file] });
+
+    if (canShareFile && shareApi.share) {
+      try {
+        await shareApi.share({
+          files: [file],
+          title: "ZeeGuard mouthguard design",
+        });
+        return;
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+      }
+    }
+
+    const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.download = `zeeguard-${(athleteName || "design").toLowerCase().replace(/\s+/g, "-")}.png`;
-    link.href = canvas.toDataURL("image/png");
+    link.href = url;
+    link.download = fileName;
     link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
+  const preparePng = async () => {
+    setIsExportingPng(true);
+    setPngExportError(null);
+
+    try {
+      await downloadPng();
+    } catch {
+      setPngExportError("Could not create the PNG. Please try again.");
+    } finally {
+      setIsExportingPng(false);
+    }
   };
 
   return (
@@ -1867,11 +1920,18 @@ export function DesignerStudio() {
             </button>
             <button
               type="button"
-              onClick={downloadPng}
+              onClick={preparePng}
+              disabled={isExportingPng}
               className="flex items-center hover:cursor-pointer justify-center gap-2 rounded-lg bg-green-700 px-4 py-3 text-sm font-semibold text-white hover:bg-green-600 min-h-[44px] active:bg-green-800 active:scale-95 transition-all duration-150"
             >
-              <Download size={18} /> Download PNG
+              <Download size={18} />
+              {isExportingPng ? "Preparing PNG..." : "Download PNG"}
             </button>
+            {pngExportError && (
+              <p role="alert" className="max-w-48 text-xs text-red-400">
+                {pngExportError}
+              </p>
+            )}
           </div>
           <div className="flex flex-col gap-3">
             <button
