@@ -19,12 +19,8 @@ export function TestimonialsSection({ tone = "base" }: { tone?: "base" | "raised
         <div className={cn("text-lg lg:w-auto", inter.className)}>
           <Carousel>
             {HOME_TESTIMONIALS.map((t, i) => (
-              <motion.div
+              <div
                 key={`${t.name}-${i}`}
-                initial={{ opacity: 0, y: 22 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.08 }}
                 className="w-80 shrink-0 px-2 md:w-120 lg:w-1/3 snap-start"
               >
                 <blockquote className="flex flex-col gap-4 rounded-xl border border-white/10 bg-ink-850 p-6">
@@ -41,7 +37,7 @@ export function TestimonialsSection({ tone = "base" }: { tone?: "base" | "raised
                     </div>
                   </footer>
                 </blockquote>
-              </motion.div>
+              </div>
             ))}
           </Carousel>
         </div>

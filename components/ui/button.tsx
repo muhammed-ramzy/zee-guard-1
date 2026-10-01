@@ -3,7 +3,6 @@ import { ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { oswald } from "@/app/fonts";
-import {motion} from 'motion/react'
 
 type ButtonVariant =
   | "solid"
@@ -24,7 +23,7 @@ const VARIANT_STYLES: Record<ButtonVariant, string> = {
 
 
 const baseStyles =
-  cn("inline-flex items-center justify-center gap-2 font-display uppercase tracking-wide transition-all duration-300 focus-visible:outline-hidden disabled:opacity-50 disabled:pointer-events-none px-3 md:px-6 h-[76px] hover:scale-105 rounded-[26px] text-2xl md:text-3xl font-bold py-3", oswald.className);
+  cn("inline-flex items-center justify-center gap-2 font-display uppercase tracking-wide transition-all duration-300 focus-visible:outline-hidden disabled:opacity-50 disabled:pointer-events-none px-3 md:px-6 h-[76px] hover:scale-105 rounded-[26px] text-2xl md:text-3xl font-bold whitespace-nowrap py-1", oswald.className);
 
 interface CommonProps {
   variant?: ButtonVariant;

@@ -4,9 +4,9 @@ export const MODELS = [
   "DesignFlex Elite",
   "Fusion Strong",
   "Fusion Elite",
-  "Elite - Essential",
-  "Elite - Advanced",
-  "Elite - Ultimate",
+  "Elite - Essential (Braces)",
+  "Elite - Advanced (Braces)",
+  "Elite - Ultimate (Braces)",
 ] as const;
 
 export const THICKNESSES = ["3mm", "4mm", "5mm", "6mm"] as const;
@@ -19,6 +19,7 @@ export const BASE_COLORS = [
   { name: "Blue", hex: "#2563eb" },
   { name: "Green", hex: "#16a34a" },
   { name: "Pink", hex: "#ec4899" },
+  { name: "Transparent", hex: "transparent" },
 ];
 
 export const GUARD_PATH =

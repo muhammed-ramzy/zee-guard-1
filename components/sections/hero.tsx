@@ -27,7 +27,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-[#200002]/88" />
       <div className="absolute inset-0 bg-black/45" />
 
-      <Container className="relative flex h-screen flex-col items-center justify-center gap-7 text-center">
+      <Container className="relative flex min-h-dvh flex-col items-center justify-center gap-1 pt-17 pb-8 text-center">
         <motion.h1
           className={cn(
             "max-w-4xl font-display uppercase leading-[1.05] tracking-wide text-contact-gold text-3xl md:text-5xl lg:text-[70px] font-bold",
@@ -44,7 +44,7 @@ export function Hero() {
         </motion.h1>
 
         <motion.div
-          className="relative mx-auto w-full max-w-xl"
+          className="relative mx-auto w-full max-w-lg"
           initial="hidden"
           animate="visible"
           variants={reveal}
@@ -67,7 +67,7 @@ export function Hero() {
 
         <motion.p
           className={cn(
-            "text-balance text-sm text-my-darker-pink sm:text-lg",
+            "text-balance text-sm text-my-darker-pink sm:text-lg mb-2",
             inter.className,
           )}
           initial="hidden"
@@ -76,8 +76,7 @@ export function Hero() {
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
         >
           <span className="font-bold text-my-pink">Dentist-made</span>{" "}
-          custom-fit mouthguards trusted by national-level athletes in Karate,
-          MMA, Boxing and Kickboxing.
+          custom-fit mouthguards trusted by national-level athletes in all Martial arts.
         </motion.p>
 
         <motion.div
@@ -89,7 +88,7 @@ export function Hero() {
           <Button
             href="/categories"
             variant="solid"
-            className={oswald.className}
+            className={cn(oswald.className, "mb-2")}
           >
             Create My Own Design
           </Button>
@@ -108,7 +107,7 @@ export function Hero() {
           {HERO_BADGES.map((badge) => (
             <li
               key={badge}
-              className="group mb-2 flex items-center gap-2 text-xs font-semibold text-my-pink sm:mb-0 sm:text-sm hover:text-my-hovered-pink"
+              className="group mb-1 flex items-center gap-2 text-xs font-semibold text-my-pink sm:mb-0 sm:text-sm hover:text-my-hovered-pink"
             >
               <CheckCircle2
                 size={20}

@@ -53,7 +53,7 @@ export default function ContactPage() {
               <div className="bg-linear-to-t  from-black/85 to-black/40 from-50% h-full absolute inset-0 z-9"></div>
               <Image
                 src={clinic}
-                alt="ZeeGuard performance lab and studio interior"
+                alt="ZeeGuard clinics locations"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover z-8"
@@ -70,7 +70,7 @@ export default function ContactPage() {
                     oswald.className,
                   )}
                 >
-                  Performance Lab &amp; Studio
+                  Clinics loacations
                 </h2>
                 <div className="flex  flex-wrap justify-evenly items-center w-full m-auto rounded-2xl overflow-hidden bg-ink-900/80 gap-2">
                   {LAB_LOCATIONS.map((location, i) => (

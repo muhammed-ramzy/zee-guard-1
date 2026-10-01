@@ -38,7 +38,7 @@ export function ProcessTimeline() {
           >
             <span
               className={cn(
-                "absolute bottom-2 right-2 md:top-6 z-10 h-10 w-10 md:-translate-y-1/2 items-center justify-center rounded-full border-2 bg-ink-950 flex group-hover:shadow-glow-blaze duration-300",
+                "absolute bottom-1 right-1 md:top-6 z-10 md:h-10 md:w-10 h-8 w-8 md:-translate-y-1/2 items-center justify-center rounded-full border-2 bg-ink-950 flex group-hover:shadow-glow-blaze duration-300",
                 isLeft ? "md:-right-5" : "md:-left-5",
                 isLeft
                   ? "border-my-icon-pink text-my-icon-pink shadow-glow-pink "
@@ -72,7 +72,7 @@ export function ProcessTimeline() {
                 {item.badge && (
                   <span
                     className={cn(
-                      "absolute top-0 right-0 whitespace-nowrap rounded-sm bg-my-icon-pink/20 px-2.5 py-0.5 md:text-sm lg:text-base text-my-icon-pink",
+                      "absolute top-0 right-0 whitespace-nowrap rounded-bl-sm bg-my-icon-pink/20 px-2.5 py-0.5 md:text-sm lg:text-base text-my-icon-pink",
                       inter.className,
                     )}
                   >

@@ -176,7 +176,7 @@ export function PricingCard({ tier, highlighted, addOns, number }: PricingCardPr
         {/* Badge */}
         <span
           className={cn(
-            "absolute left-4 top-4 z-10 rounded-sm px-3 py-1 text-xs font-bold uppercase tracking-wide",
+            "absolute left-4 top-4 z-10 rounded-sm px-3 py-1 text-xs font-bold uppercase tracking-wide ",
             inter.className,
             BADGE_STYLES[tier.badgeVariant],
           )}
@@ -354,7 +354,7 @@ export function PricingCard({ tier, highlighted, addOns, number }: PricingCardPr
             href={`https://web.whatsapp.com/send?phone=201505703992&text=${msg}`} // this if Ziad wants web only but then u'll need to datect phones to handle phone application
             variant="solid"
             icon=<FontAwesomeIcon icon={fab.faWhatsapp} className="w-8" />
-            className="mt-auto w-full bg-none! bg-emerald-600! shadow-none hover:bg-emerald-600!"
+            className="mt-auto w-full bg-none! bg-emerald-600! shadow-none hover:bg-emerald-600! text-base md:text-xl  whitespace-normal leading-tight h-auto min-h-16 px-3 py-3"
             disabled={msg.trim() == ""}
           >
             {tier.ctaLabel}
@@ -367,7 +367,7 @@ export function PricingCard({ tier, highlighted, addOns, number }: PricingCardPr
               sessionStorage.setItem("selectedCategory", tier.id);
             }}
             variant={tier.ctaVariant === "solid" ? "solid" : tier.ctaVariant}
-            className="mt-auto w-full"
+            className="mt-auto w-full text-base md:text-xl  whitespace-normal leading-tight h-auto min-h-16 px-3 py-3"
             disabled={chosenTier == null || chosenTier == ""}
           >
             {tier.ctaLabel}

@@ -25,9 +25,9 @@ export default function ScrollToTopButton() {
           behavior: "smooth",
         })
       }
-      className="fixed bottom-6 right-6 rounded-full border-white border-2 bg-my-icon-pink p-1 text-my-wine-red shadow-glow-gold cursor-pointer z-40"
+      className="fixed md:bottom-6 md:right-6 bottom-2 right-2 z-40 cursor-pointer rounded-full border-2 border-white bg-my-icon-pink p-1 text-my-wine-red shadow-glow-gold transition-all duration-200 hover:bg-my-wine-red hover:text-my-icon-pink active:scale-95"
     >
-      <ChevronUp className="w-12 h-12" />
+      <ChevronUp className="md:w-12 md:h-12 w-9 h-9" />
     </button>
   );
 }

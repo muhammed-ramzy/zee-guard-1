@@ -30,6 +30,16 @@ import { genId, getCleanFontName, readImageFile } from "./designer/utils";
 import { CollapsibleSection } from "./designer/ui/collapsible-section";
 import { DraggableElementItem } from "./designer/ui/draggable-element-item";
 
+const getColorSwatchStyle = (color: (typeof BASE_COLORS)[number]) =>
+  color.name === "Transparent"
+    ? {
+        backgroundColor: "transparent",
+        backgroundImage:
+          "conic-gradient(#cbd5e1 25%, #ffffff 0 50%, #cbd5e1 0 75%, #ffffff 0)",
+        backgroundSize: "8px 8px",
+      }
+    : { backgroundColor: color.hex };
+
 export function DesignerStudio() {
   // ---------- Global state ----------
   const [athleteName, setAthleteName] = useState("");
@@ -57,7 +67,7 @@ export function DesignerStudio() {
   });
 
   const findModelOption = (selectedModel: string) => {
-    const normalized = selectedModel.trim();
+    const normalized = selectedModel.replace("(Braces)", "").trim();
     console.log("normalized ", normalized);
 
     if (!normalized) return null;
@@ -155,7 +165,7 @@ export function DesignerStudio() {
 
   const isBracesUpperModel = (value: string) =>
     ["Elite - Essential", "Elite - Advanced", "Elite - Ultimate"].includes(
-      value.trim(),
+      value.replace("(Braces)", "").trim(),
     );
 
   const readSelectedAddOns = (storageKeyOrValue: string) => {
@@ -358,6 +368,7 @@ export function DesignerStudio() {
 
     if (isBracesUpperModel(nextModel)) {
       setIncludeLowerGuard(false);
+      setShowLowerColorSelector(false);
       setLowerModel(LOWER_JAW_OPTIONS[0].name);
       setLowerThickness(getThicknessForModel(LOWER_JAW_OPTIONS[0].name));
       setUpperAddOnSelections((prev) => ({ ...prev, lowerFit: false }));
@@ -377,6 +388,10 @@ export function DesignerStudio() {
 
   const handleLowerModelChange = (nextLowerModel: string) => {
     setLowerModel(nextLowerModel);
+    const hasLowerColors = nextLowerModel.toLowerCase().includes("colored");
+    setShowLowerColorSelector(hasLowerColors);
+    if (hasLowerColors) handleLowerColorsScrolling();
+
     const nextLowerThickness = getThicknessForModel(nextLowerModel);
     setLowerThickness(nextLowerThickness);
     setIncludeLowerGuard(true);
@@ -387,6 +402,7 @@ export function DesignerStudio() {
   const handleIncludeLowerGuardToggle = (checked: boolean) => {
     setIncludeLowerGuard(checked);
     if (!checked) {
+      setShowLowerColorSelector(false);
       setLowerModel(LOWER_JAW_OPTIONS[0].name);
       setLowerThickness(getThicknessForModel(LOWER_JAW_OPTIONS[0].name));
       setUpperAddOnSelections((prev) => ({ ...prev, lowerFit: false }));
@@ -404,6 +420,7 @@ export function DesignerStudio() {
     sessionStorage.setItem("lowerAddOn", "[]");
 
     const nextLowerModel = LOWER_JAW_OPTIONS[0].name;
+    setShowLowerColorSelector(nextLowerModel.toLowerCase().includes("colored"));
     const nextLowerThickness = getThicknessForModel(nextLowerModel);
     setLowerModel(nextLowerModel);
     setLowerThickness(nextLowerThickness);
@@ -786,6 +803,22 @@ export function DesignerStudio() {
     !isBracesSelection &&
     (selectedCategoryName.toLowerCase() === "fusion" ||
       model.toLowerCase().includes("fusion"));
+  const hasSelectedLowerGuard =
+    includeLowerGuard && (isBracesSelection || isBracesUpperModel(model));
+
+  useEffect(() => {
+    if (!hasSelectedLowerGuard) return;
+
+    setUpperAddOnSelections({ lowerFit: false });
+    setLowerAddOnSelections({ lowerFit: false });
+    setSingleAddOnSelections({ lowerFit: false });
+    sessionStorage.setItem("upperAddOn", "[]");
+    sessionStorage.setItem("lowerAddOn", "[]");
+    sessionStorage.setItem("addOn", "[]");
+    if (selectedCategoryName) {
+      sessionStorage.setItem(`${selectedCategoryName}AddOn`, "[]");
+    }
+  }, [hasSelectedLowerGuard, selectedCategoryName]);
 
   const handleAddOnCheckboxChange = (
     key: "lowerFit",
@@ -1303,11 +1336,27 @@ export function DesignerStudio() {
     return Math.atan2(dy, dx) * (180 / Math.PI);
   }
 
+  const lowerColorRef = useRef<HTMLDivElement>(null);
+
+  function handleLowerColorsScrolling() {
+    window.requestAnimationFrame(() => {
+      lowerColorRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    });
+  }
+
   const [showAthleteNameError, setShowAthleteNameError] = useState(false);
+  const athleteNameInputRef = useRef<HTMLInputElement>(null);
 
   const downloadPng = async () => {
     if (!athleteName.trim()) {
       setShowAthleteNameError(true);
+      athleteNameInputRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
       return;
     }
 
@@ -1429,6 +1478,22 @@ export function DesignerStudio() {
 
     ctx.restore();
 
+    if (includeLowerGuard) {
+      const lowerGuardScale = scale * 0.7;
+      const lowerGuardTop = canvas.height * 0.39;
+
+      ctx.save();
+      ctx.shadowColor = "rgba(0,0,0,0.5)";
+      ctx.shadowBlur = 30 * resolutionMultiplier;
+      ctx.shadowOffsetY = 10 * resolutionMultiplier;
+      ctx.translate((canvas.width - 550 * lowerGuardScale) / 2, lowerGuardTop);
+      ctx.scale(lowerGuardScale, lowerGuardScale);
+      ctx.clip(guardPath);
+      ctx.fillStyle = lowerColor.hex;
+      ctx.fillRect(0, 0, 550, 160);
+      ctx.restore();
+    }
+
     // ---------- INFO SECTION - Bottom Left with Two Columns ----------
     const infoX = 50 * resolutionMultiplier;
     const infoY = canvas.height - 240 * resolutionMultiplier; // Start from bottom, moving up
@@ -1500,9 +1565,9 @@ export function DesignerStudio() {
       : `Color: ${baseColor.name}${showLowerColorSelector ? ` · Lower: ${lowerColor.name}` : ""}`;
     const summaryLines = [
       colorSummary,
-      `${uniqueAddOns.length >= 1 ? "Add-ons:" + uniqueAddOns.join(" • ") : ""}`,
-      `Setup: ${isBracesSelection ? "Upper + Lower" : "Single guard"}`,
+      `Setup: ${includeLowerGuard ? "Upper + Lower" : "Single guard"}`,
       `Total: EGP ${totalPrice.toLocaleString()}`,
+      `${uniqueAddOns.length >= 1 ? "Add-ons:" + uniqueAddOns.join(" • ") : ""}`,
     ];
 
     const infoFont = `400 ${14 * resolutionMultiplier}px Arial, sans-serif`;
@@ -1690,7 +1755,7 @@ export function DesignerStudio() {
             <span className="font-display text-xl uppercase tracking-wide text-white lg:text-2xl">
               Studio
             </span>
-            <span className="text-xs font-semibold uppercase tracking-wide whitespace-nowrap text-gold-400">
+            <span className="md:text-xs text-[10px] font-semibold uppercase tracking-wide whitespace-nowrap text-gold-400">
               Live Preview — Tap &amp; drag and rotate elements
             </span>
           </div>
@@ -1768,7 +1833,7 @@ export function DesignerStudio() {
           </div>
         </div>
 
-        <p className="text-center text-xs text-stone whitespace-nowrap">
+        <p className="text-center md:text-xs text-[11px] text-stone whitespace-nowrap">
           {selectedEl
             ? `${selectedEl.type === "image" ? "Image" : "Text"} selected — ${isTouchDevice ? "drag to move, pinch to resize, rotate with two fingers" : "drag to move, use handles to resize and rotate"}`
             : "Tap an element to select it, or use the panel to add new ones"}
@@ -1777,8 +1842,8 @@ export function DesignerStudio() {
 
       {/* Controls */}
       <div className="flex flex-col gap-4 lg:gap-6 custom-scrollbar">
-        <div className="rounded-xl bg-ink-850 p-4 lg:p-6 flex  justify-between">
-          <div className=" flex flex-col md:flex-row gap-3">
+        <div className="flex justify-between gap-3 rounded-xl bg-ink-850 p-4 lg:p-6">
+          <div className="flex flex-col gap-3">
             <button
               type="button"
               onClick={() => {
@@ -1803,23 +1868,21 @@ export function DesignerStudio() {
               <Download size={18} /> Download PNG
             </button>
           </div>
-          <div className="  lg:flex-row gap-3">
-            <div className="flex flex-col md:flex-row gap-3">
-              <button
-                type="button"
-                onClick={addText}
-                className="flex flex-1 items-center justify-center gap-2 rounded-lg  hover:cursor-pointer  bg-blaze-500 px-4 py-3 text-sm font-semibold text-white hover:bg-blaze-600 min-h-[44px] sm:flex-none sm:justify-start 	active:bg-blaze-700 active:scale-95 transition-all duration-150"
-              >
-                <Type size={18} /> Add Text
-              </button>
-              <button
-                type="button"
-                onClick={triggerImageUpload}
-                className="flex flex-1 items-center justify-center gap-2 rounded-lg  hover:cursor-pointer  bg-blue-500 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-600 min-h-[44px] sm:flex-none sm:justify-start 	active:bg-blue-700 active:scale-95 transition-all duration-150"
-              >
-                <ImagePlus size={18} /> Add Image
-              </button>
-            </div>
+          <div className="flex flex-col gap-3">
+            <button
+              type="button"
+              onClick={addText}
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg  hover:cursor-pointer  bg-blaze-500 px-4 py-3 text-sm font-semibold text-white hover:bg-blaze-600 min-h-[44px] sm:flex-none sm:justify-start 	active:bg-blaze-700 active:scale-95 transition-all duration-150"
+            >
+              <Type size={18} /> Add Text
+            </button>
+            <button
+              type="button"
+              onClick={triggerImageUpload}
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg  hover:cursor-pointer  bg-blue-500 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-600 min-h-[44px] sm:flex-none sm:justify-start 	active:bg-blue-700 active:scale-95 transition-all duration-150"
+            >
+              <ImagePlus size={18} /> Add Image
+            </button>
             <input
               ref={fileInputRef}
               type="file"
@@ -1938,7 +2001,9 @@ export function DesignerStudio() {
                         Color
                       </label>
                       <div className="mt-1 flex flex-wrap gap-2">
-                        {BASE_COLORS.map((c) => (
+                        {BASE_COLORS.filter(
+                          (color) => color.name !== "Transparent",
+                        ).map((c) => (
                           <button
                             key={c.name}
                             type="button"
@@ -2057,6 +2122,7 @@ export function DesignerStudio() {
                 Athlete Name
               </label>
               <input
+                ref={athleteNameInputRef}
                 id="athlete-name"
                 type="text"
                 placeholder="Enter name"
@@ -2070,7 +2136,7 @@ export function DesignerStudio() {
                 className="w-full rounded-lg border border-white/15 bg-ink-900 px-4 py-3 text-base text-white placeholder:text-steel-500 focus:border-blaze-500 min-h-11 lg:text-sm"
               />
               {showAthleteNameError && (
-                <p className="mt-2 text-xs font-medium text-red-400">
+                <p className="mt-2 md:text-xs text-[11px] font-medium text-red-400 whie">
                   Please type the athlete name before downloading the PNG.
                 </p>
               )}
@@ -2104,7 +2170,7 @@ export function DesignerStudio() {
                 </select>
                 {getRecommendedForModel(model) && (
                   <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-400">
-                    Recommended: {getRecommendedForModel(model)}
+                    {getRecommendedForModel(model)}
                   </p>
                 )}
               </div>
@@ -2138,7 +2204,7 @@ export function DesignerStudio() {
             </div>
 
             {(isBracesSelection || isBracesUpperModel(model)) && (
-              <div className="rounded-xl border border-white/10 bg-ink-900/50 p-3">
+              <div className="rounded-xl border border-white/10 bg-ink-900/50 p-3 ">
                 <label className="flex items-center justify-between gap-3 text-sm text-stone">
                   <span className="font-semibold text-white">
                     Add lower mouthguard
@@ -2149,7 +2215,7 @@ export function DesignerStudio() {
                     onChange={(e) =>
                       handleIncludeLowerGuardToggle(e.target.checked)
                     }
-                    className="h-4 w-4 accent-blaze-500"
+                    className="h-4 w-4 accent-blaze-500 cursor-pointer"
                   />
                 </label>
 
@@ -2214,86 +2280,98 @@ export function DesignerStudio() {
               </div>
             )}
 
-            <div className="flex flex-row items-stretch gap-4">
-              <div className="flex-1 rounded-xl border border-white/10 bg-ink-900/70 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-steel-400">
-                  {isBracesSelection
-                    ? "Braces configuration"
-                    : "Selected add-ons"}
-                </p>
+            <div
+              className={cn(
+                "grid grid-cols-1 gap-3 sm:gap-4",
+                !hasSelectedLowerGuard &&
+                  "sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]",
+              )}
+            >
+              {!hasSelectedLowerGuard && (
+                <div className="min-w-0 rounded-xl border border-white/10 bg-ink-900/70 p-3 sm:p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-steel-400 sm:text-xs">
+                    {isBracesSelection
+                      ? "Braces configuration"
+                      : "Selected add-ons"}
+                  </p>
 
-                {isBracesSelection ? (
-                  <div className="mt-3 space-y-4">
-                    {!includeLowerGuard && (
-                      <div>
-                        <p className="mb-2 text-sm font-semibold text-white">
-                          Upper tier add-ons
-                        </p>
-                        <div className="space-y-2">
-                          {(["lowerFit"] as const).map((key) => (
-                            <label
-                              key={`upper-${key}`}
-                              className="flex items-center gap-3 text-sm text-stone"
-                            >
-                              <input
-                                type="checkbox"
-                                checked={upperAddOnSelections[key]}
-                                onChange={(e) =>
-                                  handleAddOnCheckboxChange(
-                                    key,
-                                    e.target.checked,
-                                    "upper",
-                                  )
-                                }
-                                className="h-4 w-4 accent-blaze-500"
-                              />
-                              <span className="flex flex-1 items-center justify-between gap-2">
-                                <span>Lower fit tray</span>
-                                <span className="text-xs font-semibold text-gold-400">
-                                  +{(ADD_ONS[key] ?? { price: 0 }).price} EGP
+                  {isBracesSelection ? (
+                    <div className="mt-3 space-y-4">
+                      {!includeLowerGuard && (
+                        <div>
+                          <p className="mb-2 text-sm font-semibold text-white">
+                            Upper tier add-ons
+                          </p>
+                          <div className="space-y-2">
+                            {(["lowerFit"] as const).map((key) => (
+                              <label
+                                key={`upper-${key}`}
+                                className="flex items-center gap-3 text-sm text-stone"
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={upperAddOnSelections[key]}
+                                  onChange={(e) =>
+                                    handleAddOnCheckboxChange(
+                                      key,
+                                      e.target.checked,
+                                      "upper",
+                                    )
+                                  }
+                                  className="h-4 w-4 accent-blaze-500"
+                                />
+                                <span className="flex min-w-0 flex-1 items-center justify-between gap-2">
+                                  <span className="text-[10px] sm:text-xs">
+                                    Lower fit tray
+                                  </span>
+                                  <span className="whitespace-nowrap text-[10px] font-semibold text-gold-400 sm:text-xs">
+                                    +{(ADD_ONS[key] ?? { price: 0 }).price} EGP
+                                  </span>
                                 </span>
-                              </span>
-                            </label>
-                          ))}
+                              </label>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="mt-3 space-y-2">
-                    {(["lowerFit"] as const).map((key) => (
-                      <label
-                        key={key}
-                        className="flex items-center gap-3 text-sm text-stone cursor-pointer"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={singleAddOnSelections[key]}
-                          onChange={(e) =>
-                            handleAddOnCheckboxChange(
-                              key,
-                              e.target.checked,
-                              "single",
-                            )
-                          }
-                          className="h-4 w-4 accent-blaze-500 cursor-pointer"
-                        />
-                        <span className="flex flex-1 items-center justify-between gap-2">
-                          <span>Lower fit tray</span>
-                          <span className="text-xs font-semibold text-gold-400">
-                            +{(ADD_ONS[key] ?? { price: 0 }).price} EGP
+                      )}
+                    </div>
+                  ) : (
+                    <div className="mt-3 space-y-2">
+                      {(["lowerFit"] as const).map((key) => (
+                        <label
+                          key={key}
+                          className="flex items-center gap-3 text-sm text-stone cursor-pointer"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={singleAddOnSelections[key]}
+                            onChange={(e) =>
+                              handleAddOnCheckboxChange(
+                                key,
+                                e.target.checked,
+                                "single",
+                              )
+                            }
+                            className="h-4 w-4 accent-blaze-500 cursor-pointer"
+                          />
+                          <span className="flex min-w-0 flex-1 items-center justify-between gap-2">
+                            <span className="text-[10px] sm:text-xs">
+                              Lower fit tray
+                            </span>
+                            <span className="whitespace-nowrap text-[10px] text-gold-400 sm:text-xs">
+                              +{(ADD_ONS[key] ?? { price: 0 }).price} EGP
+                            </span>
                           </span>
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div className="flex-1 rounded-xl border border-blaze-500/30 bg-blaze-500/10 p-4">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-steel-400">
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+              <div className="min-w-0 rounded-xl border border-blaze-500/30 bg-blaze-500/10 p-3 sm:p-4">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-steel-400 sm:text-xs sm:tracking-[0.18em]">
                   Total price
                 </p>
-                <p className="mt-2 text-2xl font-bold text-white">
+                <p className="mt-2 wrap-break-word text-sm font-bold text-white sm:text-base">
                   EGP {totalPrice.toLocaleString()}
                 </p>
               </div>
@@ -2315,13 +2393,14 @@ export function DesignerStudio() {
                       key={c.name}
                       type="button"
                       onClick={() => setLeftBaseColor(c)}
+                      aria-label={`Select left base color ${c.name}`}
                       className={cn(
-                        "h-10 w-10 rounded-full border-2 transition-transform hover:scale-110 sm:h-8 sm:w-8",
+                        "h-9 w-9 shrink-0 rounded-full border-2 transition-transform hover:scale-110 sm:h-10 sm:w-10",
                         leftBaseColor.name === c.name
                           ? "border-blaze-500"
                           : "border-white/20",
                       )}
-                      style={{ backgroundColor: c.hex }}
+                      style={getColorSwatchStyle(c)}
                     />
                   ))}
                 </div>
@@ -2336,13 +2415,14 @@ export function DesignerStudio() {
                       key={c.name}
                       type="button"
                       onClick={() => setRightBaseColor(c)}
+                      aria-label={`Select right base color ${c.name}`}
                       className={cn(
-                        "h-10 w-10 rounded-full border-2 transition-transform hover:scale-110 sm:h-8 sm:w-8",
+                        "h-9 w-9 shrink-0 rounded-full border-2 transition-transform hover:scale-110 sm:h-10 sm:w-10",
                         rightBaseColor.name === c.name
                           ? "border-blaze-500"
                           : "border-white/20",
                       )}
-                      style={{ backgroundColor: c.hex }}
+                      style={getColorSwatchStyle(c)}
                     />
                   ))}
                 </div>
@@ -2355,20 +2435,24 @@ export function DesignerStudio() {
                   key={c.name}
                   type="button"
                   onClick={() => setBaseColor(c)}
+                  aria-label={`Select base color ${c.name}`}
                   className={cn(
-                    "h-10 w-10 rounded-full border-2 transition-transform hover:scale-110 sm:h-8 sm:w-8  cursor-pointer",
+                    "h-9 w-9 shrink-0 rounded-full border-2 transition-transform hover:scale-110 sm:h-10 sm:w-10 cursor-pointer",
                     baseColor.name === c.name
                       ? "border-black ring-2 ring-white scale-105"
                       : "border-white/20",
                   )}
-                  style={{ backgroundColor: c.hex }}
+                  style={getColorSwatchStyle(c)}
                 />
               ))}
             </div>
           )}
 
           {showLowerColorSelector && (
-            <div className="mt-5 rounded-xl border border-white/10 bg-ink-900/60 p-3">
+            <div
+              ref={lowerColorRef}
+              className="mt-5 rounded-xl border border-white/10 bg-ink-900/60 p-3"
+            >
               <span className="text-xs font-semibold uppercase tracking-wide text-steel-400">
                 Lower Color
               </span>
@@ -2382,12 +2466,12 @@ export function DesignerStudio() {
                       sessionStorage.setItem("lowerColor", c.name);
                     }}
                     className={cn(
-                      "h-10 w-10 rounded-full border-2 transition-transform hover:scale-110 sm:h-8 sm:w-8 cursor-pointer",
+                      "h-9 w-9 shrink-0 rounded-full border-2 transition-transform hover:scale-110 sm:h-10 sm:w-10 cursor-pointer",
                       lowerColor.name === c.name
                         ? "border-black ring-2 ring-white scale-105"
                         : "border-white/20",
                     )}
-                    style={{ backgroundColor: c.hex }}
+                    style={getColorSwatchStyle(c)}
                     aria-label={`Select lower color ${c.name}`}
                   />
                 ))}
