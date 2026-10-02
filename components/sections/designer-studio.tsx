@@ -8,13 +8,7 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import {
-  RotateCcw,
-  Download,
-  Trash2,
-  Type,
-  ImagePlus,
-} from "lucide-react";
+import { RotateCcw, Download, Trash2, Type, ImagePlus } from "lucide-react";
 import { FONT_FAMILIES } from "@/app/fonts";
 import { cn } from "@/lib/utils";
 import {
@@ -323,10 +317,8 @@ export function DesignerStudio() {
       nextModel =
         MODELS.find(
           (designerModel) =>
-            designerModel
-              .replace("(Braces)", "")
-              .trim()
-              .toLowerCase() === selectedUpperModel.toLowerCase(),
+            designerModel.replace("(Braces)", "").trim().toLowerCase() ===
+            selectedUpperModel.toLowerCase(),
         ) ?? selectedUpperModel;
     } else if (
       selectedCategory &&
@@ -369,26 +361,29 @@ export function DesignerStudio() {
   }, []);
 
   const handleUpperModelChange = (nextModel: string) => {
+    const nextIsBracesModel = isBracesUpperModel(nextModel);
+
     setModel(nextModel);
     setThickness(getThicknessForModel(nextModel));
+    setIsBracesSelection(nextIsBracesModel);
+    setIncludeLowerGuard(false);
+    setShowLowerColorSelector(false);
+    setLowerModel(LOWER_JAW_OPTIONS[0].name);
+    setLowerThickness(getThicknessForModel(LOWER_JAW_OPTIONS[0].name));
+    setLowerColor(BASE_COLORS[1]);
+    setUpperAddOnSelections((prev) => ({ ...prev, lowerFit: false }));
+    setLowerAddOnSelections({ lowerFit: false });
     sessionStorage.setItem("upper tier", nextModel);
     sessionStorage.setItem(
       "upperTierthickness",
       getThicknessForModel(nextModel),
     );
-
-    if (isBracesUpperModel(nextModel)) {
-      setIncludeLowerGuard(false);
-      setShowLowerColorSelector(false);
-      setLowerModel(LOWER_JAW_OPTIONS[0].name);
-      setLowerThickness(getThicknessForModel(LOWER_JAW_OPTIONS[0].name));
-      setUpperAddOnSelections((prev) => ({ ...prev, lowerFit: false }));
-      sessionStorage.setItem("upperAddOn", JSON.stringify([]));
-      sessionStorage.setItem("Lower tier", "");
-      sessionStorage.setItem("lowerTierthickness", "");
-      sessionStorage.setItem("lowerAddOn", "[]");
-      setLowerAddOnSelections({ lowerFit: false });
-    }
+    sessionStorage.setItem("isBraces", String(nextIsBracesModel));
+    sessionStorage.setItem("upperAddOn", JSON.stringify([]));
+    sessionStorage.setItem("Lower tier", "");
+    sessionStorage.setItem("lowerTierthickness", "");
+    sessionStorage.setItem("lowerAddOn", "[]");
+    sessionStorage.removeItem("lowerColor");
   };
 
   useEffect(() => {
@@ -1432,7 +1427,7 @@ export function DesignerStudio() {
     ctx.beginPath();
     ctx.clip(guardPath);
 
-    if (model === "Fusion") {
+    if (isFusionSelected) {
       ctx.fillStyle = leftBaseColor.hex;
       ctx.fillRect(0, 0, 262, 160);
       ctx.fillStyle = rightBaseColor.hex;
@@ -1477,6 +1472,10 @@ export function DesignerStudio() {
         ctx.font = fontString;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         ctx.fillStyle = el.color ?? "#ffffff";
 
         ctx.measureText(el.text);
@@ -1489,21 +1488,48 @@ export function DesignerStudio() {
       ctx.restore();
     }
 
+    const upperHasTransparentColor = isFusionSelected
+      ? leftBaseColor.name === "Transparent" ||
+        rightBaseColor.name === "Transparent"
+      : baseColor.name === "Transparent";
+
+    if (upperHasTransparentColor) {
+      ctx.shadowColor = "transparent";
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+      ctx.strokeStyle = "#e2e8f0";
+      ctx.lineWidth = 1.5;
+      ctx.stroke(guardPath);
+    }
+
     ctx.restore();
 
     if (includeLowerGuard) {
-      const lowerGuardScale = scale * 0.7;
-      const lowerGuardTop = canvas.height * 0.39;
+      const lowerGuardScale = scale * 0.8;
+      const lowerGuardTop = canvas.height * 0.3;
 
       ctx.save();
       ctx.shadowColor = "rgba(0,0,0,0.5)";
       ctx.shadowBlur = 30 * resolutionMultiplier;
       ctx.shadowOffsetY = 10 * resolutionMultiplier;
-      ctx.translate((canvas.width - 550 * lowerGuardScale) / 2, lowerGuardTop);
+      ctx.translate(
+        (canvas.width + 515 * lowerGuardScale) / 2,
+        lowerGuardTop + 160 * lowerGuardScale,
+      );
+      ctx.rotate(Math.PI);
       ctx.scale(lowerGuardScale, lowerGuardScale);
       ctx.clip(guardPath);
       ctx.fillStyle = lowerColor.hex;
       ctx.fillRect(0, 0, 550, 160);
+      if (lowerColor.name === "Transparent") {
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.strokeStyle = "#e2e8f0";
+        ctx.lineWidth = 1.5;
+        ctx.stroke(guardPath);
+      }
       ctx.restore();
     }
 
@@ -1779,7 +1805,8 @@ export function DesignerStudio() {
         });
         return;
       } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") return;
+        if (error instanceof DOMException && error.name === "AbortError")
+          return;
       }
     }
 
