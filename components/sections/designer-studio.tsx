@@ -1428,9 +1428,9 @@ export function DesignerStudio() {
     ctx.clip(guardPath);
 
     if (isFusionSelected) {
-      ctx.fillStyle = leftBaseColor.hex;
-      ctx.fillRect(0, 0, 262, 160);
       ctx.fillStyle = rightBaseColor.hex;
+      ctx.fillRect(0, 0, 262, 160);
+      ctx.fillStyle = leftBaseColor.hex;
       ctx.fillRect(262, 0, 275, 160);
     } else {
       ctx.fillStyle = baseColor.hex;
@@ -1600,7 +1600,7 @@ export function DesignerStudio() {
 
     const uniqueAddOns = [...new Set(addOnSummary)];
     const colorSummary = isFusionSelected
-      ? `Left: ${leftBaseColor.name} · Right: ${rightBaseColor.name}`
+      ? `Left: ${rightBaseColor.name} · Right: ${leftBaseColor.name}`
       : `Color: ${baseColor.name}${showLowerColorSelector ? ` · Lower: ${lowerColor.name}` : ""}`;
     const summaryLines = [
       colorSummary,
@@ -1878,13 +1878,13 @@ export function DesignerStudio() {
                 <>
                   <path
                     d={GUARD_PATH}
-                    fill={leftBaseColor.hex}
+                    fill={rightBaseColor.hex}
                     clipPath="url(#left-half)"
                     stroke="none"
                   />
                   <path
                     d={GUARD_PATH}
-                    fill={rightBaseColor.hex}
+                    fill={leftBaseColor.hex}
                     clipPath="url(#right-half)"
                     stroke="none"
                   />
