@@ -6,7 +6,7 @@ import { AVAILABLE_COLORS } from "@/constants/pricing";
 import { cn } from "@/lib/utils";
 import { inter, oswald } from "@/app/fonts";
 import { useEffect, useRef, useState } from "react";
-import {motion} from 'motion/react'
+import { motion } from "motion/react";
 interface BracesCardProps {
   badge: string;
   badgeTone: "blaze" | "gray";
@@ -114,14 +114,12 @@ export function BracesCard({
 
     // clearing session storage
     sessionStorage.clear();
-    
+
     syncLowerSelection();
     window.addEventListener("selection-changed", syncLowerSelection);
 
     return () =>
       window.removeEventListener("selection-changed", syncLowerSelection);
-    
-
   }, []);
 
   const visibleAddOns = Object.entries(addOns).filter(([key]) => {
@@ -207,15 +205,15 @@ export function BracesCard({
           : "rounded-r-2xl border-r-white/10",
       )}
       initial={{ opacity: 0, y: 22 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{
-              duration: 0.5,
-              ease: "easeOut",
-              delay: 0.05,
-            }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{
+        duration: 0.5,
+        ease: "easeOut",
+        delay: 0.05,
+      }}
     >
-      <div className="relative h-56 w-full sm:h-72">
+      <div className="relative aspect-[4/3] w-full">
         <span
           className={`absolute left-4 top-4 z-10 rounded px-3 py-1 text-xs font-bold uppercase tracking-wide ${
             badgeTone === "blaze"

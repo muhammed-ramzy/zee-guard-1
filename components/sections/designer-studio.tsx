@@ -2065,9 +2065,9 @@ export function DesignerStudio() {
                             type="button"
                             className="number-arrow-btn"
                             onClick={() => {
-                              const current = Number(selectedEl.rotation) || 0;
+                              const current = Number(selectedEl.fontSize) || 22;
                               updateEl(selectedEl.id, {
-                                rotation: current + 1,
+                                fontSize: Math.min(120, current + 1),
                               });
                             }}
                           >
@@ -2077,9 +2077,9 @@ export function DesignerStudio() {
                             type="button"
                             className="number-arrow-btn"
                             onClick={() => {
-                              const current = Number(selectedEl.rotation) || 0;
+                              const current = Number(selectedEl.fontSize) || 22;
                               updateEl(selectedEl.id, {
-                                rotation: current - 1,
+                                fontSize: Math.max(8, current - 1),
                               });
                             }}
                           >

@@ -31,15 +31,14 @@ export function GalleryGrid() {
       ) : (
         <div className="flex justify-center flex-wrap">
           {designs.map((design) => (
-            <div key={design.id} className="lg:w-1/3 w-full p-3">
+            <div key={design.id} className="lg:w-1/4 w-full p-3">
               <div>
-                <GalleryCard design={design} className="h-100 text-left" />
+                <GalleryCard design={design} className="text-left" />
               </div>
             </div>
           ))}
         </div>
       )}
-      
     </div>
   );
 }

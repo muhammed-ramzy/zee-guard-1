@@ -11,7 +11,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 // import corefitImage from "@/assets/images/categories/corefit.png";
 import designFlexImage from "@/assets/images/categories/DesignFlex.webp";
 import fusionImage from "@/assets/images/categories/DesignFlex.webp";
-import {motion} from 'motion/react'
+import { motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
 const BADGE_STYLES: Record<PricingTier["badgeVariant"], string> = {
@@ -38,10 +38,15 @@ interface PricingCardProps {
   tier: PricingTier;
   highlighted?: boolean;
   addOns: AddOns;
-  number: number
+  number: number;
 }
 
-export function PricingCard({ tier, highlighted, addOns, number }: PricingCardProps) {
+export function PricingCard({
+  tier,
+  highlighted,
+  addOns,
+  number,
+}: PricingCardProps) {
   const [chosenTier, setchosenTier] = useState<string | null>(null);
   const chosenIndex = useRef<number>(0);
   const [msg, setMsg] = useState<string>(encodeURIComponent(""));
@@ -164,13 +169,13 @@ export function PricingCard({ tier, highlighted, addOns, number }: PricingCardPr
             : "border-white/10",
       )}
       initial={{ opacity: 0, y: 22 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{
-              duration: 0.5,
-              ease: "easeOut",
-              delay: number * 0.07,
-            }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{
+        duration: 0.5,
+        ease: "easeOut",
+        delay: number * 0.07,
+      }}
     >
       <div className="relative">
         {/* Badge */}
@@ -185,7 +190,7 @@ export function PricingCard({ tier, highlighted, addOns, number }: PricingCardPr
         </span>
 
         {/* Image */}
-        <div className="relative h-52 md:h-80 lg:h-64 w-full bg-ink-900">
+        <div className="relative aspect-[4/3] w-full bg-ink-900">
           <Image
             src={IMAGE_MAP[tier.id] ?? "/images/tier-corefit.svg"}
             alt={`${tier.name} mouthguard product preview`}

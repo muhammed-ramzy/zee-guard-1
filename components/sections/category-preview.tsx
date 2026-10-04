@@ -71,7 +71,7 @@ export function CategoryPreview() {
                 delay: index * 0.08,
               }}
             >
-              <GalleryCard design={design} className="h-80 lg:h-65" />
+              <GalleryCard design={design}  />
             </motion.div>
           ))}
         </div>

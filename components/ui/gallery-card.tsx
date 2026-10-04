@@ -15,7 +15,7 @@ export function GalleryCard({ design, className }: GalleryCardProps) {
   return (
     <motion.article
       className={cn(
-        "group relative overflow-hidden rounded-xl border border-white/10 bg-ink-850",
+        "group relative aspect-square overflow-hidden rounded-xl border border-white/10 bg-ink-850",
         className,
       )}
       initial={{ opacity: 0, y: 22 }}
@@ -28,7 +28,7 @@ export function GalleryCard({ design, className }: GalleryCardProps) {
             }}
     >
       <div className="absolute inset-0 bg-[#000000]" />
-      <div className={cn("relative w-full", className)}>
+    <div className="absolute inset-0">
         <Image
           src={design.image}
           alt={`${design.title} — custom mouthguard design, ${design.subtitle}`}
