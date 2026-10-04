@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { GripVertical, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { DesignElement } from "../types";
@@ -16,6 +16,8 @@ export function DraggableElementItem({
   onDragOver,
   onDragEnd,
   onDrop,
+  onTouchDragOver,
+  onTouchDrop,
 }: {
   element: DesignElement;
   index: number;
@@ -27,13 +29,24 @@ export function DraggableElementItem({
   onDragOver: (e: React.DragEvent, index: number) => void;
   onDragEnd: (e: React.DragEvent) => void;
   onDrop: (e: React.DragEvent, index: number) => void;
+  onTouchDragOver: (index: number) => void;
+  onTouchDrop: (fromIndex: number, toIndex: number) => void;
 }) {
   const [isDragging, setIsDragging] = useState(false);
+  const touchDragRef = useRef<{ from: number; to: number } | null>(null);
+
+  const finishTouchDrag = (commit: boolean) => {
+    const drag = touchDragRef.current;
+    if (drag) onTouchDrop(drag.from, commit ? drag.to : drag.from);
+    touchDragRef.current = null;
+    setIsDragging(false);
+  };
 
   return (
     <li
+      data-layer-index={index}
       className={cn(
-        "flex cursor-move items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-200",
+        "flex cursor-move touch-none select-none items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-200",
         isSelected
           ? "border border-blaze-500 bg-blaze-500/20"
           : "hover:bg-white/5",
@@ -43,6 +56,27 @@ export function DraggableElementItem({
           "scale-105 border-2 border-dashed border-blue-500 bg-blue-500/10",
       )}
       onClick={onSelect}
+      onTouchStart={(e) => {
+        if ((e.target as HTMLElement).closest("button")) return;
+        touchDragRef.current = { from: index, to: index };
+        setIsDragging(true);
+      }}
+      onTouchMove={(e) => {
+        const drag = touchDragRef.current;
+        if (!drag) return;
+
+        const touch = e.touches[0];
+        const target = document
+          .elementFromPoint(touch.clientX, touch.clientY)
+          ?.closest<HTMLElement>("[data-layer-index]");
+        const targetIndex = Number(target?.dataset.layerIndex);
+        if (!target || !Number.isInteger(targetIndex)) return;
+
+        drag.to = targetIndex;
+        onTouchDragOver(targetIndex);
+      }}
+      onTouchEnd={() => finishTouchDrag(true)}
+      onTouchCancel={() => finishTouchDrag(false)}
       draggable
       onDragStart={(e) => {
         setIsDragging(true);

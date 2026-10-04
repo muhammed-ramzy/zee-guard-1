@@ -728,6 +728,23 @@ export function DesignerStudio() {
     setDragOverIndex(null);
   };
 
+  const reorderElements = (fromIndex: number, targetIndex: number) => {
+    if (fromIndex === targetIndex) return;
+
+    setElements((prev) => {
+      if (!prev[fromIndex] || !prev[targetIndex]) return prev;
+      const newElements = [...prev];
+      const [draggedItem] = newElements.splice(fromIndex, 1);
+      newElements.splice(targetIndex, 0, draggedItem);
+      return newElements;
+    });
+  };
+
+  const handleTouchDragDrop = (fromIndex: number, targetIndex: number) => {
+    reorderElements(fromIndex, targetIndex);
+    setDragOverIndex(null);
+  };
+
   const handleDrop = (e: React.DragEvent, targetIndex: number) => {
     e.preventDefault();
     if (draggedIndex === null || draggedIndex === targetIndex) {
@@ -736,12 +753,7 @@ export function DesignerStudio() {
       return;
     }
 
-    setElements((prev) => {
-      const newElements = [...prev];
-      const [draggedItem] = newElements.splice(draggedIndex, 1);
-      newElements.splice(targetIndex, 0, draggedItem);
-      return newElements;
-    });
+    reorderElements(draggedIndex, targetIndex);
 
     setDraggedIndex(null);
     setDragOverIndex(null);
@@ -2015,6 +2027,8 @@ export function DesignerStudio() {
                       onDragOver={handleDragOver}
                       onDragEnd={handleDragEnd}
                       onDrop={handleDrop}
+                      onTouchDragOver={setDragOverIndex}
+                      onTouchDrop={handleTouchDragDrop}
                     />
                   ))}
                 </ul>
