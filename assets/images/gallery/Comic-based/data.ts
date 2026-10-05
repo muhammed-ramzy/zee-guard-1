@@ -24,7 +24,7 @@ const createDesign = (id: string, title: string, image: typeof whySoSerious) => 
 const designs = [
   createDesign(
     "comic-based-batman-v-superman",
-    "batman v superman gallery",
+    "batman v superman",
     batmanVsSuperman,
   ),
   createDesign(

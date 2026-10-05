@@ -57,12 +57,9 @@ export function GalleryCard({ design, className }: GalleryCardProps) {
             </span>
           </div>
         )}
-        <h3 className="max-w-full break-words font-display text-lg font-semibold uppercase leading-tight text-white sm:text-xl">
-          {design.title}
-        </h3>
-        {design.subtitle && (
-          <p className="mt-1 text-xs text-steel-300 sm:text-sm">
-            {design.subtitle}
+        {design.title && (
+          <p className="max-w-full whitespace-nowrap font-display font-semibold uppercase leading-tight text-white sm:text-lg">
+            {design.title}
           </p>
         )}
       </div>

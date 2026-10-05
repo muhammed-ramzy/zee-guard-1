@@ -54,7 +54,7 @@ export function PricingCard({
 
   // Using refs - no re-renders
   const [selectedData, setSelectedData] = useState<choice>({
-    optionName: "",
+    optionName: "", 
     optionPrice: 0,
     thickness: "",
     addOns: [],
