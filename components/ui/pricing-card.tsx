@@ -8,8 +8,8 @@ import { AVAILABLE_COLORS } from "@/constants/pricing";
 import { inter, oswald } from "@/app/fonts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-// import corefitImage from "@/assets/images/categories/corefit.webp";
-import designFlexImage from "@/assets/images/categories/DesignFlex.webp";
+import corefitImage from "@/assets/images/categories/corefit.webp";
+import designFlexImage from "@/assets/images/categories/elite.webp";
 import fusionImage from "@/assets/images/categories/fusion.webp";
 import { motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -21,7 +21,7 @@ const BADGE_STYLES: Record<PricingTier["badgeVariant"], string> = {
 };
 
 const IMAGE_MAP: Record<string, StaticImageData> = {
-  corefit: designFlexImage,
+  corefit: corefitImage,
   designflex: designFlexImage,
   fusion: fusionImage,
 };
