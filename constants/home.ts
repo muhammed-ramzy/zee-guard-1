@@ -28,7 +28,7 @@ export const FEATURES: FeatureItem[] = [
     icon: "Wind",
     title: "Better Breathing",
     description:
-      "Optimized airflow channels enhance breathing, helping you stay focused and perform at your highest level.",
+      "Less bulky compared to stock mouthguards allowing better breathing, helping you stay focused and perform at your highest level.",
   },
   {
     icon: "ShieldCheck",
@@ -46,7 +46,7 @@ export const FEATURES: FeatureItem[] = [
     icon: "BriefcaseMedical",
     title: "Braces Friendly",
     description:
-      "Designed for athletes with braces, providing dependable protection without compromising comfort or fit.",
+      "A special category designed for athletes with braces, providing dependable protection without compromising comfort or fit.",
   },
   {
     icon: "Brush",
@@ -57,7 +57,7 @@ export const FEATURES: FeatureItem[] = [
 ];
 
 export const TRUST_STATS: StatItem[] = [
-  { value: 300, label: "Athletes" },
+  { value: 400, label: "Athletes" },
   { value: 15, label: "Countries" },
   { value: 50, label: "National Team" },
   { value: 50, label: "International Athletes" },
@@ -164,7 +164,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "How long does it take to make a custom mouthguard?",
     answer:
-      "From impression to delivery, most orders are ready within 5 business days. Rush fittings can be arranged for competitions on short notice — just message us on WhatsApp.",
+      "From impression to delivery, most orders are ready within 5-7 business days. Rush fittings can be arranged for competitions on short notice — just message us on WhatsApp.",
   },
   {
     question: "Can I get a mouthguard if I wear braces?",
@@ -174,7 +174,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: "How do I clean my mouthguard?",
     answer:
-      "Rinse with cool water after every use, brush gently with a soft toothbrush, and store it in a ventilated case. Avoid hot water, which can warp the custom fit.",
+      "Rinse with cool water after every use, brush gently with a soft toothbrush, and store it in our special case. Avoid hot water, which can warp the custom fit.",
   },
 ];
 
@@ -197,7 +197,7 @@ export const PROCESS_STEPS_FULL: ProcessStep[] = [
     step: 3,
     title: "Book Appointment",
     description:
-      "Schedule a fitting at our lab or arrange for a certified mobile technician to visit your training facility.",
+      "Schedule a fitting at one of our clinics or arrange for a one of our dentists to visit your training facility.",
     icon: "CalendarCheck",
   },
   {
@@ -214,7 +214,7 @@ export const PROCESS_STEPS_FULL: ProcessStep[] = [
     description:
       "Thermoforming, pressure lamination, and meticulous hand-finishing in our specialized dental laboratory.",
     icon: "Cog",
-    badge: "5 Days",
+    badge: "5-7 Days",
   },
   {
     step: 6,

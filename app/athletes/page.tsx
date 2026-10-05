@@ -25,7 +25,7 @@ export default function AthletesPage() {
       <Section className="pt-16">
         <Container className="flex flex-col items-center gap-6 text-center">
           <PageHeader
-                    title="Trusted by National Athletes"
+                    title="Trusted by International Athletes"
                     subtitle="In the octagon or on the mat, compromise is not an option. ZeeGuard is the
             chosen armor for champions who demand elite protection without sacrificing
             breathability or focus."

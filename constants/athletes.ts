@@ -6,8 +6,8 @@ import hossam from "@/assets/images/athletes/karam-gaber.webp";
 
 
 export const ATHLETE_STATS: StatItem[] = [
-  { value: 15, label: "Senior National Champions" },
-  { value: 6, label: "Junior National Champions" },
+  { value: 50, label: "National Team champions" },
+  { value: 50, label: "Worldwide champions" },
   { value: 100, label: "Professional Grade Rating", isPercent: true },
 ];
 

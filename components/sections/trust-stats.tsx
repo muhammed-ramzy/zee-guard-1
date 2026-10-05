@@ -27,8 +27,8 @@ export function TrustStats() {
           className="w-full"
         >
           <SectionHeading
-            title="Trusted by Egypt's Top Fighters"
-            subtitle="Trusted by athletes competing in boxing, MMA, kickboxing, BJJ, karate, taekwondo, and more."
+            title="Trusted by Worldwide Top Fighters"
+            subtitle="Trusted by athletes competing in boxing, MMA, kickboxing, BJJ, muay thai, karate, taekwondo, and more."
           />
         </motion.div>
 

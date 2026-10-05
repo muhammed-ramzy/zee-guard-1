@@ -8,11 +8,11 @@ import { AVAILABLE_COLORS } from "@/constants/pricing";
 import { inter, oswald } from "@/app/fonts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-// import corefitImage from "@/assets/images/categories/corefit.png";
+// import corefitImage from "@/assets/images/categories/corefit.webp";
 import designFlexImage from "@/assets/images/categories/DesignFlex.webp";
-import fusionImage from "@/assets/images/categories/DesignFlex.webp";
+import fusionImage from "@/assets/images/categories/fusion.webp";
 import { motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const BADGE_STYLES: Record<PricingTier["badgeVariant"], string> = {
   essential: "bg-white/10 text-white",
@@ -132,14 +132,14 @@ export function PricingCard({
     if (chosenTier) console.log(chosenTier);
   }
 
-  function setWhatsappMsg() {
+  const setWhatsappMsg = useCallback(() => {
     const chosenAddOns = selectedData.addOns.map((addOn) => addOn.key);
     const addOnsMsg = chosenAddOns.length > 0 ? chosenAddOns.join(", ") : "";
 
     const fullMsg = `Tier: ${chosenTier}\nColor: ${chosenColor}\n${addOnsMsg && "Add Ons: " + addOnsMsg}`;
 
     setMsg(encodeURIComponent(fullMsg));
-  }
+  }, [chosenColor, chosenTier, selectedData.addOns]);
 
   useEffect(() => {
     if (chosenTier?.toLowerCase().includes("corefit")) {
@@ -156,7 +156,7 @@ export function PricingCard({
     console.log(encodeURIComponent(msg));
     console.log(chosenColor);
     console.log(chosenTier);
-  }, [chosenColor, chosenTier, selectedData.addOns, tier.id, msg]);
+  }, [chosenColor, chosenTier, selectedData.addOns, tier.id, msg, setWhatsappMsg]);
 
   return (
     <motion.div
@@ -239,8 +239,13 @@ export function PricingCard({
                   {/* Name and price */}
                   <span className="flex items-center justify-between gap-2">
                     {/* Name */}
-                    <span className="text-base font-bold text-stone">
+                    <span className="inline-flex flex-wrap items-center gap-2 text-base font-bold text-stone">
                       {option.name}
+                      {option.name === "Elite - Ultimate" && (
+                        <span className="rounded-sm bg-gold-500 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-ink-950">
+                          Best Seller
+                        </span>
+                      )}
                     </span>
                     {/* Price */}
                     <span

@@ -26,6 +26,7 @@ export interface GalleryDesign {
   id: string;
   title: string;
   subtitle: string;
+  alt?: string;
   tag?: string;
   categoryId: string;
   image: string | StaticImageData;
@@ -82,27 +83,25 @@ export interface PricingTier {
 }
 
 export interface AddOns {
-  lowerFit: AddOnOption,
-  flavour?: AddOnOption,
+  lowerFit: AddOnOption;
+  flavour?: AddOnOption;
 }
 
-export interface AddOnOption
-{
-  description: string,
-  price: number
+export interface AddOnOption {
+  description: string;
+  price: number;
 }
 
-export interface AddOnChoice
-{
-  key: string,
-  addOnOption: AddOnOption
+export interface AddOnChoice {
+  key: string;
+  addOnOption: AddOnOption;
 }
 
-export interface choice{
-    optionName: string,
-    optionPrice: number,
-    thickness: string,
-    addOns: AddOnChoice[]
+export interface choice {
+  optionName: string;
+  optionPrice: number;
+  thickness: string;
+  addOns: AddOnChoice[];
 }
 
 export interface Athlete {
@@ -111,7 +110,7 @@ export interface Athlete {
   achievements: string[];
   quote: string;
   imageQuery: string;
-  img: StaticImageData
+  img: StaticImageData;
 }
 
 export interface ContactMethod {
@@ -126,12 +125,11 @@ export interface LabLocation {
   name: string;
   address: string[];
 }
-export interface Socials  {
-   label: string;
+export interface Socials {
+  label: string;
   icon: fontIcon;
   href: string;
   color: string;
 }
 
 export type fontIcon = "facebook" | "whatsapp" | "instagram";
-

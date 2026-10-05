@@ -23,12 +23,19 @@ import {
   GUARD_CENTER_Y,
   GUARD_PATH,
   MODELS,
-  THICKNESSES,
 } from "./designer/constants";
 import type { DesignElement } from "./designer/types";
 import { genId, getCleanFontName, readImageFile } from "./designer/utils";
 import { CollapsibleSection } from "./designer/ui/collapsible-section";
 import { DraggableElementItem } from "./designer/ui/draggable-element-item";
+
+const TRANSPARENT_COLOR =
+  BASE_COLORS.find((color) => color.name === "Transparent") ?? BASE_COLORS[0];
+
+const isEliteEssentialModel = (value: string) =>
+  value.replace("(Braces)", "").trim() === "Elite - Essential";
+const isEliteUltimateModel = (value: string) =>
+  value.replace("(Braces)", "").trim() === "Elite - Ultimate";
 
 const getColorSwatchStyle = (color: (typeof BASE_COLORS)[number]) =>
   color.name === "Transparent"
@@ -43,14 +50,14 @@ const getColorSwatchStyle = (color: (typeof BASE_COLORS)[number]) =>
 export function DesignerStudio() {
   // ---------- Global state ----------
   const [athleteName, setAthleteName] = useState("");
-  const [model, setModel] = useState<string>("DesignFlex Shield");
+  const [model, setModel] = useState<string>("Elite - Essential");
   const [thickness, setThickness] = useState<string>("4mm");
   const [lowerModel, setLowerModel] = useState<string>(
     LOWER_JAW_OPTIONS[0].name,
   );
   const [lowerThickness, setLowerThickness] = useState<string>("3mm");
   const [includeLowerGuard, setIncludeLowerGuard] = useState(false);
-  const [baseColor, setBaseColor] = useState(BASE_COLORS[1]);
+  const [baseColor, setBaseColor] = useState(TRANSPARENT_COLOR);
   const [leftBaseColor, setLeftBaseColor] = useState(BASE_COLORS[1]);
   const [rightBaseColor, setRightBaseColor] = useState(BASE_COLORS[1]);
   const [lowerColor, setLowerColor] = useState(BASE_COLORS[1]);
@@ -66,7 +73,7 @@ export function DesignerStudio() {
     lowerFit: false,
   });
 
-  const findModelOption = (selectedModel: string) => {
+  const findModelOption = useCallback((selectedModel: string) => {
     const normalized = selectedModel.replace("(Braces)", "").trim();
     console.log("normalized ", normalized);
 
@@ -83,14 +90,17 @@ export function DesignerStudio() {
         (option) => option.name.toLowerCase() === normalized.toLowerCase(),
       ) ?? null
     );
-  };
+  }, []);
 
-  const getPriceForModel = (selectedModel: string) => {
-    const match = findModelOption(selectedModel);
-    console.log(match);
+  const getPriceForModel = useCallback(
+    (selectedModel: string) => {
+      const match = findModelOption(selectedModel);
+      console.log(match);
 
-    return match?.price ?? 0;
-  };
+      return match?.price ?? 0;
+    },
+    [findModelOption],
+  );
 
   const getRecommendedForModel = (selectedModel: string) => {
     const normalized = selectedModel.replace("(Braces)", "").trim();
@@ -109,26 +119,53 @@ export function DesignerStudio() {
     return match?.recommended ?? "";
   };
 
-  const getThicknessForModel = (selectedModel: string) => {
-    const match = findModelOption(selectedModel);
-    if (match?.spec) {
-      const thicknessMatch = match.spec.match(/(\d+)mm/i);
-      if (thicknessMatch) {
-        return `${thicknessMatch[1]}mm`;
+  const getThicknessForModel = useCallback(
+    (selectedModel: string) => {
+      const match = findModelOption(selectedModel);
+      if (match?.spec) {
+        const thicknessMatch = match.spec.match(/(\d+)mm/i);
+        if (thicknessMatch) {
+          return `${thicknessMatch[1]}mm`;
+        }
       }
+
+      const modelName = selectedModel.toLowerCase();
+      if (modelName.includes("3mm")) return "3mm";
+      if (modelName.includes("4mm")) return "4mm";
+      if (modelName.includes("5mm")) return "5mm";
+      if (modelName.includes("6mm")) return "6mm";
+
+      return "4mm";
+    },
+    [findModelOption],
+  );
+
+  const getThicknessLabelForModel = useCallback(
+    (selectedModel: string) => {
+      const match = findModelOption(selectedModel);
+      const thickness = getThicknessForModel(selectedModel);
+      const layerMatch = match?.spec.match(/(\d+)\s*layers?/i);
+      const layers = layerMatch
+        ? `${layerMatch[1]} ${Number(layerMatch[1]) === 1 ? "Layer" : "Layers"}`
+        : "";
+
+      return [thickness, layers].filter(Boolean).join(" · ");
+    },
+    [findModelOption, getThicknessForModel],
+  );
+
+  const getModelFromSession = (
+    tierName: string,
+    thicknessValue: string,
+    isLowerModel = false,
+  ) => {
+    const trimmedTier = tierName.trim();
+    const normalized = trimmedTier.toLowerCase();
+
+    if (!isLowerModel && normalized.includes("corefit")) {
+      return "Elite - Essential";
     }
 
-    const modelName = selectedModel.toLowerCase();
-    if (modelName.includes("3mm")) return "3mm";
-    if (modelName.includes("4mm")) return "4mm";
-    if (modelName.includes("5mm")) return "5mm";
-    if (modelName.includes("6mm")) return "6mm";
-
-    return "4mm";
-  };
-
-  const getModelFromSession = (tierName: string, thicknessValue: string) => {
-    const trimmedTier = tierName.trim();
     const allOptions = [
       ...CORE_TIERS.flatMap((tier) => tier.options),
       ...UPPER_JAW_OPTIONS,
@@ -146,25 +183,23 @@ export function DesignerStudio() {
       );
       if (exactModelMatch) return exactModelMatch;
 
-      const normalized = trimmedTier.toLowerCase();
-      if (normalized.includes("fusion")) return "Fusion Strong";
+      if (normalized.includes("fusion")) return "Fusion - Advanced";
       if (normalized.includes("elite")) return "Elite - Ultimate";
-      if (normalized.includes("corefit")) return "CoreFit Shield";
-      if (normalized.includes("designflex")) return "DesignFlex Shield";
+      if (normalized.includes("designflex")) return "Elite - Essential";
     }
 
     const combined = `${tierName} ${thicknessValue}`.toLowerCase();
-    if (combined.includes("fusion")) return "Fusion Strong";
+    if (combined.includes("fusion")) return "Fusion - Advanced";
     if (combined.includes("elite")) return "Elite - Ultimate";
-    if (combined.includes("corefit")) return "CoreFit Shield";
+    if (!isLowerModel && combined.includes("corefit")) {
+      return "Elite - Essential";
+    }
 
-    return "DesignFlex Shield";
+    return "Elite - Essential";
   };
 
   const isBracesUpperModel = (value: string) =>
-    ["Elite - Essential", "Elite - Advanced", "Elite - Ultimate"].includes(
-      value.replace("(Braces)", "").trim(),
-    );
+    value.trim().toLowerCase().endsWith("(braces)");
 
   const readSelectedAddOns = (storageKeyOrValue: string) => {
     try {
@@ -240,6 +275,7 @@ export function DesignerStudio() {
   }, [
     includeLowerGuard,
     isBracesSelection,
+    getPriceForModel,
     lowerAddOnSelections,
     lowerModel,
     model,
@@ -298,7 +334,7 @@ export function DesignerStudio() {
       sessionStorage.getItem("tier") || "",
     ].find((value) => Boolean(value && value.trim()));
 
-    const actualUpperModel = resolvedUpperTierSource || "DesignFlex Shield";
+    const actualUpperModel = resolvedUpperTierSource || "Elite - Essential";
     const selectedUpperModel = getModelFromSession(
       actualUpperModel,
       upperThickness || categoryThickness || lowerThickness || "4mm",
@@ -306,6 +342,7 @@ export function DesignerStudio() {
     const selectedLowerModel = getModelFromSession(
       lowerTier || LOWER_JAW_OPTIONS[0].name,
       lowerThickness || "3mm",
+      true,
     );
 
     setLowerModel(selectedLowerModel);
@@ -314,11 +351,14 @@ export function DesignerStudio() {
     let nextModel = selectedUpperModel;
 
     if (isBraces) {
+      const bracesBaseModel = selectedUpperModel
+        .replace(/\s*\(Braces\)$/i, "")
+        .trim();
       nextModel =
         MODELS.find(
           (designerModel) =>
-            designerModel.replace("(Braces)", "").trim().toLowerCase() ===
-            selectedUpperModel.toLowerCase(),
+            designerModel.toLowerCase() ===
+            `${bracesBaseModel} (Braces)`.toLowerCase(),
         ) ?? selectedUpperModel;
     } else if (
       selectedCategory &&
@@ -326,25 +366,21 @@ export function DesignerStudio() {
     ) {
       nextModel = selectedUpperModel.includes("Fusion")
         ? selectedUpperModel
-        : "Fusion Strong";
-    } else if (
-      selectedCategory &&
-      selectedCategory.toLowerCase() === "corefit"
-    ) {
-      nextModel = selectedUpperModel.includes("CoreFit")
-        ? selectedUpperModel
-        : "CoreFit Shield";
+        : "Fusion - Advanced";
     } else if (
       selectedCategory &&
       selectedCategory.toLowerCase() === "designflex"
     ) {
-      nextModel = selectedUpperModel.includes("DesignFlex")
+      nextModel = selectedUpperModel.includes("Elite")
         ? selectedUpperModel
-        : "DesignFlex Shield";
+        : "Elite - Essential";
     }
 
     setModel(nextModel);
     setThickness(getThicknessForModel(nextModel));
+    setBaseColor(
+      isEliteEssentialModel(nextModel) ? TRANSPARENT_COLOR : BASE_COLORS[1],
+    );
 
     setUpperAddOnSelections(readSelectedAddOns("upperAddOn"));
     setLowerAddOnSelections(readSelectedAddOns("lowerAddOn"));
@@ -358,13 +394,16 @@ export function DesignerStudio() {
         console.info("Braces lower tier selected:", lowerTier);
       }
     }
-  }, []);
+  }, [getThicknessForModel]);
 
   const handleUpperModelChange = (nextModel: string) => {
     const nextIsBracesModel = isBracesUpperModel(nextModel);
 
     setModel(nextModel);
     setThickness(getThicknessForModel(nextModel));
+    setBaseColor(
+      isEliteEssentialModel(nextModel) ? TRANSPARENT_COLOR : BASE_COLORS[1],
+    );
     setIsBracesSelection(nextIsBracesModel);
     setIncludeLowerGuard(false);
     setShowLowerColorSelector(false);
@@ -466,6 +505,7 @@ export function DesignerStudio() {
     initialRotation: number;
     initialMouseAngle: number;
   } | null>(null);
+  const dragEventControllerRef = useRef<AbortController | null>(null);
 
   // ---------- Pinch resize refs ----------
   const pinchRef = useRef<{
@@ -619,7 +659,6 @@ export function DesignerStudio() {
       const {
         selectedId,
         initialWidth,
-        initialHeight,
         initialFontSize,
         elementType,
         aspectRatio,
@@ -676,7 +715,7 @@ export function DesignerStudio() {
     }
   }, []);
 
-  const handlePinchEnd = useCallback((e: TouchEvent) => {
+  const handlePinchEnd = useCallback(() => {
     if (pinchRef.current.active) {
       pinchRef.current.active = false;
       pinchRef.current.selectedId = null;
@@ -723,7 +762,7 @@ export function DesignerStudio() {
     setDragOverIndex(index);
   };
 
-  const handleDragEnd = (e: React.DragEvent) => {
+  const handleDragEnd = () => {
     setDraggedIndex(null);
     setDragOverIndex(null);
   };
@@ -818,11 +857,11 @@ export function DesignerStudio() {
       sessionStorage.getItem("selectedCategory")) ||
     "";
   const isFusionSelected =
-    !isBracesSelection &&
-    (selectedCategoryName.toLowerCase() === "fusion" ||
-      model.toLowerCase().includes("fusion"));
+    !isBracesSelection && model.toLowerCase().includes("fusion");
+  const isEliteEssentialSelected = isEliteEssentialModel(model);
+  const isBestSellerModel = isEliteUltimateModel(model);
   const hasSelectedLowerGuard =
-    includeLowerGuard && (isBracesSelection || isBracesUpperModel(model));
+    includeLowerGuard && isBracesSelection;
 
   useEffect(() => {
     if (!hasSelectedLowerGuard) return;
@@ -908,24 +947,24 @@ export function DesignerStudio() {
     };
     setSelectedId(id);
 
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
-    window.addEventListener("touchmove", onTouchMove, { passive: false });
-    window.addEventListener("touchend", onTouchEnd, { passive: false });
-    window.addEventListener("touchcancel", onTouchEnd, { passive: false });
+    dragEventControllerRef.current?.abort();
+    const controller = new AbortController();
+    dragEventControllerRef.current = controller;
+    window.addEventListener("mousemove", onMove, { signal: controller.signal });
+    window.addEventListener("mouseup", onUp, { signal: controller.signal });
+    window.addEventListener("touchmove", onTouchMove, {
+      passive: false,
+      signal: controller.signal,
+    });
+    window.addEventListener("touchend", onTouchEnd, {
+      passive: false,
+      signal: controller.signal,
+    });
+    window.addEventListener("touchcancel", onTouchEnd, {
+      passive: false,
+      signal: controller.signal,
+    });
   };
-
-  const onTouchMove = useCallback(
-    (e: TouchEvent) => {
-      if (pinchRef.current.active) return;
-      e.preventDefault();
-      if (!dragRef.current) return;
-      const touch = e.touches[0];
-      const { x, y } = svgPoint(touch.clientX, touch.clientY);
-      applyDragMovement(x, y);
-    },
-    [svgPoint],
-  );
 
   const applyDragMovement = useCallback((x: number, y: number) => {
     if (!dragRef.current) return;
@@ -1013,39 +1052,43 @@ export function DesignerStudio() {
     );
   }, []);
 
+  const onTouchMove = useCallback(
+    (e: TouchEvent) => {
+      if (pinchRef.current.active) return;
+      e.preventDefault();
+      if (!dragRef.current) return;
+      const touch = e.touches[0];
+      const { x, y } = svgPoint(touch.clientX, touch.clientY);
+      applyDragMovement(x, y);
+    },
+    [svgPoint, applyDragMovement],
+  );
+
   const onMove = useCallback(
     (e: MouseEvent) => {
       if (!dragRef.current) return;
       const { x, y } = svgPoint(e.clientX, e.clientY);
       applyDragMovement(x, y);
     },
-    [svgPoint],
+    [svgPoint, applyDragMovement],
   );
 
   const onUp = useCallback(() => {
     dragRef.current = null;
-    window.removeEventListener("mousemove", onMove);
-    window.removeEventListener("mouseup", onUp);
-    window.removeEventListener("touchmove", onTouchMove);
-    window.removeEventListener("touchend", onTouchEnd);
-    window.removeEventListener("touchcancel", onTouchEnd);
-  }, [onMove, onTouchMove]);
+    dragEventControllerRef.current?.abort();
+    dragEventControllerRef.current = null;
+  }, []);
 
-  const onTouchEnd = useCallback(
-    (e: TouchEvent) => {
-      if (pinchRef.current.active) return;
-      dragRef.current = null;
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup", onUp);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onTouchEnd);
-      window.removeEventListener("touchcancel", onTouchEnd);
-    },
-    [onMove, onTouchMove],
-  );
+  const onTouchEnd = useCallback(() => {
+    if (pinchRef.current.active) return;
+    dragRef.current = null;
+    dragEventControllerRef.current?.abort();
+    dragEventControllerRef.current = null;
+  }, []);
 
   // ---------- Text dimensions estimate ----------
-  const hasArabicText = (value: string) => /[\u0600-\u06FF\u0750-\u077F]/.test(value ?? "");
+  const hasArabicText = (value: string) =>
+    /[\u0600-\u06FF\u0750-\u077F]/.test(value ?? "");
 
   const textDims = (el: DesignElement) => {
     const fs = el.fontSize ?? 22;
@@ -1104,11 +1147,13 @@ export function DesignerStudio() {
               textAnchor="middle"
               dominantBaseline="middle"
               direction={hasArabicText(el.text ?? "") ? "rtl" : "ltr"}
-              unicodeBidi={hasArabicText(el.text ?? "") ? "plaintext" : "normal"}
+              unicodeBidi={
+                hasArabicText(el.text ?? "") ? "plaintext" : "normal"
+              }
               fontFamily={
                 hasArabicText(el.text ?? "")
                   ? "var(--font-noto-arabic), 'Noto Naskh Arabic', serif"
-                  : el.fontFamily ?? FONT_FAMILIES[0]?.value
+                  : (el.fontFamily ?? FONT_FAMILIES[0]?.value)
               }
               fontWeight="bold"
               fontSize={el.fontSize}
@@ -1483,7 +1528,7 @@ export function DesignerStudio() {
         const isArabic = hasArabicText(el.text);
         const fontFamily = isArabic
           ? "var(--font-noto-arabic), 'Noto Naskh Arabic', serif"
-          : el.fontFamily ?? "Arial";
+          : (el.fontFamily ?? "Arial");
 
         const cleanFont = resolveFontName(fontFamily);
         console.log(`Drawing text "${el.text}" with font: ${cleanFont}`);
@@ -1565,7 +1610,7 @@ export function DesignerStudio() {
 
     // --- MAIN INFO PANEL (Left Column) ---
     // Draw semi-transparent background panel
-    const panelWidth = 460 * resolutionMultiplier;
+    const panelWidth = 490 * resolutionMultiplier;
     const panelHeight = 190 * resolutionMultiplier;
     ctx.save();
     ctx.shadowColor = "rgba(0,0,0,0.3)";
@@ -1605,7 +1650,11 @@ export function DesignerStudio() {
     await document.fonts.load(titleFont);
     ctx.fillStyle = "#ffffff";
     ctx.font = titleFont;
-    ctx.fillText(`${model} · ${thickness}`, infoX, infoY);
+    ctx.fillText(
+      `${model} · ${getThicknessLabelForModel(model)}`,
+      infoX,
+      infoY,
+    );
 
     // Athlete Name
     const nameFont = `600 ${18 * resolutionMultiplier}px Arial, sans-serif`;
@@ -1619,9 +1668,9 @@ export function DesignerStudio() {
     );
 
     const addOnSummary = [
-      upperAddOnSelections.lowerFit ? "Lower fit tray" : null,
-      lowerAddOnSelections.lowerFit ? "Lower fit tray" : null,
-      singleAddOnSelections.lowerFit ? "Lower fit tray" : null,
+      upperAddOnSelections.lowerFit ? "Lower arch imprints" : null,
+      lowerAddOnSelections.lowerFit ? "Lower arch imprints" : null,
+      singleAddOnSelections.lowerFit ? "Lower arch imprints" : null,
     ].filter(Boolean) as string[];
 
     const uniqueAddOns = [...new Set(addOnSummary)];
@@ -1632,7 +1681,7 @@ export function DesignerStudio() {
       colorSummary,
       `Setup: ${includeLowerGuard ? "Upper + Lower" : "Single guard"}`,
       `Total: EGP ${totalPrice.toLocaleString()}`,
-      `${uniqueAddOns.length >= 1 ? "Add-ons:" + uniqueAddOns.join(" • ") : ""}`,
+      `${uniqueAddOns.length >= 1 ? "Add-ons: " + uniqueAddOns.join(" • ") : ""}`,
     ];
 
     const infoFont = `400 ${14 * resolutionMultiplier}px Arial, sans-serif`;
@@ -1959,9 +2008,9 @@ export function DesignerStudio() {
               type="button"
               onClick={() => {
                 setAthleteName("");
-                setModel("DesignFlex Shield");
+                setModel("Elite - Essential");
                 setThickness("4mm");
-                setBaseColor(BASE_COLORS[1]);
+                setBaseColor(TRANSPARENT_COLOR);
                 setLeftBaseColor(BASE_COLORS[1]);
                 setRightBaseColor(BASE_COLORS[1]);
                 setElements([]);
@@ -2264,12 +2313,19 @@ export function DesignerStudio() {
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
-                <label
-                  htmlFor="model"
-                  className="text-xs font-semibold uppercase tracking-wide text-steel-400"
-                >
-                  Model
-                </label>
+                <div className="flex items-center gap-2">
+                  <label
+                    htmlFor="model"
+                    className="text-xs font-semibold uppercase tracking-wide text-steel-400"
+                  >
+                    Model
+                  </label>
+                  {/* {isBestSellerModel && (
+                    <span className="rounded-sm bg-gold-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-ink-950">
+                      Best Seller
+                    </span>
+                  )} */}
+                </div>
                 <select
                   id="model"
                   value={model}
@@ -2288,11 +2344,7 @@ export function DesignerStudio() {
                     </option>
                   ))}
                 </select>
-                {getRecommendedForModel(model) && (
-                  <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-400">
-                    {getRecommendedForModel(model)}
-                  </p>
-                )}
+                
               </div>
               <div className="flex flex-col gap-1.5">
                 <label
@@ -2316,14 +2368,18 @@ export function DesignerStudio() {
                   }}
                   className="w-full rounded-lg border border-white/15 bg-ink-900 px-4 py-3 text-base text-white focus:border-blaze-500 min-h-[44px] lg:text-sm appearance-none cursor-not-allowed"
                 >
-                  {THICKNESSES.map((t) => (
-                    <option key={t}>{t}</option>
-                  ))}
+                  <option value={thickness}>
+                    {getThicknessLabelForModel(model)}
+                  </option>
                 </select>
               </div>
             </div>
-
-            {(isBracesSelection || isBracesUpperModel(model)) && (
+            {getRecommendedForModel(model) && (
+                  <p className="ms-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold-400">
+                    {getRecommendedForModel(model)}
+                  </p>
+                )}
+            {isBracesSelection && (
               <div className="rounded-xl border border-white/10 bg-ink-900/50 p-3 ">
                 <label className="flex items-center justify-between gap-3 text-sm text-stone">
                   <span className="font-semibold text-white">
@@ -2390,9 +2446,9 @@ export function DesignerStudio() {
                         }}
                         className="w-full rounded-lg border border-white/15 bg-ink-900 px-4 py-3 text-base text-white focus:border-blaze-500 min-h-[44px] lg:text-sm appearance-none cursor-not-allowed"
                       >
-                        {THICKNESSES.map((t) => (
-                          <option key={t}>{t}</option>
-                        ))}
+                        <option value={lowerThickness}>
+                          {getThicknessLabelForModel(lowerModel)}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -2442,7 +2498,7 @@ export function DesignerStudio() {
                                 />
                                 <span className="flex min-w-0 flex-1 items-center justify-between gap-2">
                                   <span className="text-[10px] sm:text-xs">
-                                    Lower fit tray
+                                    Lower arch imprints
                                   </span>
                                   <span className="whitespace-nowrap text-[10px] font-semibold text-gold-400 sm:text-xs">
                                     +{(ADD_ONS[key] ?? { price: 0 }).price} EGP
@@ -2475,7 +2531,7 @@ export function DesignerStudio() {
                           />
                           <span className="flex min-w-0 flex-1 items-center justify-between gap-2">
                             <span className="text-[10px] sm:text-xs">
-                              Lower fit tray
+                              Lower arch imprints
                             </span>
                             <span className="whitespace-nowrap text-[10px] text-gold-400 sm:text-xs">
                               +{(ADD_ONS[key] ?? { price: 0 }).price} EGP
@@ -2501,7 +2557,11 @@ export function DesignerStudio() {
 
         {/* 2. Base Color - Collapsible */}
         <CollapsibleSection title="Base Color" number={2} defaultOpen={true}>
-          {isFusionSelected ? (
+          {isEliteEssentialSelected ? (
+            <p className="text-sm font-semibold text-steel-300">
+              Transparent only
+            </p>
+          ) : isFusionSelected ? (
             <div className="flex flex-col gap-4 sm:flex-row sm:gap-6 justify-between">
               <div className="">
                 <span className="text-xs font-semibold uppercase tracking-wide text-steel-400">

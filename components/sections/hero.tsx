@@ -76,7 +76,7 @@ export function Hero() {
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.3 }}
         >
           <span className="font-bold text-my-pink">Dentist-made</span>{" "}
-          custom-fit mouthguards trusted by national-level athletes in all Martial arts.
+          custom-fit mouthguards trusted by International-level athletes in all Martial arts.
         </motion.p>
 
         <motion.div
