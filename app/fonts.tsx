@@ -1,5 +1,13 @@
 // app/fonts.tsx
-import { Oswald, Inter, Lato, Limelight, Playfair_Display, Dancing_Script } from "next/font/google";
+import {
+  Oswald,
+  Inter,
+  Lato,
+  Limelight,
+  Playfair_Display,
+  Dancing_Script,
+  Noto_Naskh_Arabic,
+} from "next/font/google";
 import localFont from "next/font/local";
 
 export const oswald = Oswald({
@@ -12,6 +20,12 @@ export const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: '--font-inter',
+});
+
+export const notoArabic = Noto_Naskh_Arabic({
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
+  variable: '--font-noto-arabic',
 });
 
 export const lato = Lato({
@@ -56,11 +70,13 @@ export const FONT_FAMILIES = [
   { name: "American Captain", value: "var(--font-oswald), Oswald, sans-serif", family: "Oswald" },
   { name: "Corporate Gothic", value: "var(--font-playfair), 'Playfair Display', serif", family: "Playfair Display" },
   { name: "Playlist Script", value: "var(--font-dancing), 'Dancing Script', cursive", family: "Dancing Script" },
+  { name: "Arabic Modern", value: "var(--font-noto-arabic), 'Noto Naskh Arabic', serif", family: "Noto Naskh Arabic" },
 ];
 
 export const fontVariables = [
   oswald.variable,
   inter.variable,
+  notoArabic.variable,
   lato.variable,
   copperplate.variable,
   limelight.variable,

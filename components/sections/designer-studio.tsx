@@ -1045,15 +1045,18 @@ export function DesignerStudio() {
   );
 
   // ---------- Text dimensions estimate ----------
+  const hasArabicText = (value: string) => /[\u0600-\u06FF\u0750-\u077F]/.test(value ?? "");
+
   const textDims = (el: DesignElement) => {
     const fs = el.fontSize ?? 22;
     const txt = el.text ?? "";
-    const w =
-      txt.length *
-      fs *
-      (["Impact", "Oswald"].includes(getCleanFontName(el.fontFamily ?? ""))
+    const isArabic = hasArabicText(txt);
+    const multiplier = isArabic
+      ? 0.9
+      : ["Impact", "Oswald"].includes(getCleanFontName(el.fontFamily ?? ""))
         ? 0.65
-        : 0.55);
+        : 0.55;
+    const w = txt.length * fs * multiplier;
     const h = fs * 1.25;
     return { w: Math.max(w, 40), h };
   };
@@ -1100,11 +1103,17 @@ export function DesignerStudio() {
             <text
               textAnchor="middle"
               dominantBaseline="middle"
-              fontFamily={el.fontFamily ?? FONT_FAMILIES[0]?.value}
+              direction={hasArabicText(el.text ?? "") ? "rtl" : "ltr"}
+              unicodeBidi={hasArabicText(el.text ?? "") ? "plaintext" : "normal"}
+              fontFamily={
+                hasArabicText(el.text ?? "")
+                  ? "var(--font-noto-arabic), 'Noto Naskh Arabic', serif"
+                  : el.fontFamily ?? FONT_FAMILIES[0]?.value
+              }
               fontWeight="bold"
               fontSize={el.fontSize}
               fill={el.color}
-              letterSpacing={2}
+              letterSpacing={hasArabicText(el.text ?? "") ? 0 : 2}
               pointerEvents="all"
             >
               {el.text}
@@ -1471,7 +1480,10 @@ export function DesignerStudio() {
         ctx.drawImage(img, -w / 2, -h / 2, w, h);
       } else if (el.type === "text" && el.text) {
         const fontSize = el.fontSize ?? 22;
-        const fontFamily = el.fontFamily ?? "Arial";
+        const isArabic = hasArabicText(el.text);
+        const fontFamily = isArabic
+          ? "var(--font-noto-arabic), 'Noto Naskh Arabic', serif"
+          : el.fontFamily ?? "Arial";
 
         const cleanFont = resolveFontName(fontFamily);
         console.log(`Drawing text "${el.text}" with font: ${cleanFont}`);
@@ -1482,7 +1494,8 @@ export function DesignerStudio() {
         await document.fonts.load(fontString);
 
         ctx.font = fontString;
-        ctx.textAlign = "center";
+        ctx.textAlign = isArabic ? "right" : "center";
+        ctx.direction = isArabic ? "rtl" : "ltr";
         ctx.textBaseline = "middle";
         ctx.shadowColor = "transparent";
         ctx.shadowBlur = 0;
@@ -1494,7 +1507,8 @@ export function DesignerStudio() {
         await new Promise((resolve) => setTimeout(resolve, 50));
 
         const textVerticalOffset = -7;
-        ctx.fillText(el.text, 0, textVerticalOffset);
+        const x = isArabic ? 8 : 0;
+        ctx.fillText(el.text, x, textVerticalOffset);
       }
 
       ctx.restore();
