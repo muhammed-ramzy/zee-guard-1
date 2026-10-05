@@ -48,11 +48,23 @@ export function GalleryCard({ design, className }: GalleryCardProps) {
         </span>
       )}
 
-      <div className="absolute bottom-0 left-0 right-0 p-5">
-        <h3 className="font-display text-xl uppercase tracking-wide text-white sm:text-2xl">
+      <div className="absolute inset-x-0 bottom-0 px-4 pb-4 pt-16 sm:px-5 sm:pb-5">
+        {design.tag && (
+          <div className="mb-2 flex items-center gap-2">
+            <span className="h-px w-6 shrink-0 bg-gold-400" />
+            <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-gold-300">
+              {design.tag}
+            </span>
+          </div>
+        )}
+        <h3 className="max-w-full break-words font-display text-lg font-semibold uppercase leading-tight text-white sm:text-xl">
           {design.title}
         </h3>
-        <p className="mt-1 text-sm text-steel-400">{design.subtitle}</p>
+        {design.subtitle && (
+          <p className="mt-1 text-xs text-steel-300 sm:text-sm">
+            {design.subtitle}
+          </p>
+        )}
       </div>
     </motion.article>
   );

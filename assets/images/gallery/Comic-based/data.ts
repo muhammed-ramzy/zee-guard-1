@@ -47,7 +47,7 @@ const designs = [
   createDesign("comic-based-venom-1", "Venom #1", venomOne),
   createDesign("comic-based-venom-2", "Venom #2", venomTwo),
   createDesign("comic-based-venom-3", "Venom #3", venomThree),
-  createDesign("comic-based-why-so-serious", "WhySoSerious", whySoSerious),
+  createDesign("comic-based-why-so-serious", "Why So Serious", whySoSerious),
 ];
 
 export default designs;
