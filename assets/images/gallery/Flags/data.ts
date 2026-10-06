@@ -1,6 +1,6 @@
 import angola from "./ANGOLA.webp";
 import belgium from "./BELGIUM.webp";
-import egyptOne from "./EGYPT1.webp";
+import egyptOne from "./EGYPT1 R.webp";
 import egyptTwo from "./EGYPT2.webp";
 import egyptThree from "./EGYPT3.webp";
 import egyptFour from "./EGYPT4.webp";
