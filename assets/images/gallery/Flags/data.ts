@@ -1,149 +1,41 @@
-import img1 from "./1.webp";
-import img2 from "./2.webp";
-import img3 from "./3.webp";
-import img4 from "./4.webp";
-import img5 from "./5.webp";
-import img6 from "./6.webp";
-import img7 from "./7.webp";
-import img8 from "./8.webp";
-import img9 from "./9.webp";
-import img10 from "./10.webp";
-import img11 from "./11.webp";
-import img12 from "./12.webp";
-import img13 from "./13.webp";
+import angola from "./ANGOLA.webp";
+import belgium from "./BELGIUM.webp";
+import egyptOne from "./EGYPT1.webp";
+import egyptTwo from "./EGYPT2.webp";
+import egyptThree from "./EGYPT3.webp";
+import egyptFour from "./EGYPT4.webp";
+import jordan from "./JORDAN.webp";
+import ksaOne from "./KSA1.webp";
+import ksaTwo from "./KSA2.webp";
+import libyaOne from "./LIBYA1.webp";
+import libyaTwo from "./LIBYA2.webp";
+import qatar from "./QATAR.webp";
 
+const createDesign = (id: string, title: string, image: typeof angola) => ({
+  id,
+  title,
+  subtitle: "",
+  alt: `${title} mouthguard`,
+  tag: "",
+  categoryId: "flags",
+  image,
+  featured: false,
+  size: "small",
+});
 
 const designs = [
-  {
-    id: "flags-1",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img1,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-2",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img2,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-3",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img3,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-4",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img4,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-5",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img5,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-6",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img6,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-7",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img7,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-8",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img8,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-9",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img9,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-10",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img10,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-11",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img11,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-12",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img12,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "flags-13",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "flags",
-    image: img13,
-    featured: false,
-    size: "small",
-  },
+  createDesign("flags-angola", "Angola", angola),
+  createDesign("flags-belgium", "Belgium", belgium),
+  createDesign("flags-egypt-1", "Egypt 1", egyptOne),
+  createDesign("flags-egypt-2", "Egypt 2", egyptTwo),
+  createDesign("flags-egypt-3", "Egypt 3", egyptThree),
+  createDesign("flags-egypt-4", "Egypt 4", egyptFour),
+  createDesign("flags-jordan", "Jordan", jordan),
+  createDesign("flags-ksa-1", "KSA 1", ksaOne),
+  createDesign("flags-ksa-2", "KSA 2", ksaTwo),
+  createDesign("flags-libya-1", "Libya 1", libyaOne),
+  createDesign("flags-libya-2", "Libya 2", libyaTwo),
+  createDesign("flags-qatar", "Qatar", qatar),
 ];
 
 export default designs;

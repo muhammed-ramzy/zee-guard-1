@@ -1,39 +1,25 @@
-import img1 from "./1.webp";
-import img2 from "./2.webp";
-import img3 from "./3.webp";
+import dragonsOne from "./Dragons1.webp";
+import dragonsTwo from "./Dragons2.webp";
+import dragonsThree from "./Dragons3.webp";
+import dragonsWrath from "./Dragon's Wrath.webp";
 
+const createDesign = (id: string, title: string, image: typeof dragonsOne) => ({
+  id,
+  title,
+  subtitle: "",
+  alt: `${title} mouthguard`,
+  tag: "",
+  categoryId: "dragons",
+  image,
+  featured: false,
+  size: "small",
+});
 
 const designs = [
-  {
-    id: "dragons-1",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "dragons",
-    image: img1,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "dragons-2",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "dragons",
-    image: img2,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "dragons-3",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "dragons",
-    image: img3,
-    featured: false,
-    size: "small",
-  },
+  createDesign("dragons-1", "Dragons 1", dragonsOne),
+  createDesign("dragons-2", "Dragons 2", dragonsTwo),
+  createDesign("dragons-3", "Dragons 3", dragonsThree),
+  createDesign("dragons-wrath", "Dragon's Wrath", dragonsWrath),
 ];
 
 export default designs;
