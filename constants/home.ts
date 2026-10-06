@@ -3,11 +3,8 @@ import {
   StatItem,
   ProcessStep,
   ComparisonRow,
-  Testimonial,
   FaqItem,
 } from "@/types";
-
-import {testimonials} from '@/assets/images/image'
 
 export const HERO_BADGES: string[] = [
   "National Team Athletes",
@@ -78,86 +75,6 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   { feature: "Breathing & Speaking", traditional: "Difficult", zeeguard: "Clear & unobstructed" },
   { feature: "Impact Protection", traditional: "Minimal diffusion", zeeguard: "Advanced multi-layer" },
   { feature: "Durability", traditional: "Wears quickly", zeeguard: "Long-lasting materials" },
-];
-
-export const HOME_TESTIMONIALS: Testimonial[] = [
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
-  {
-    name: "Ahmed M.",
-    role: "National Karate Team",
-    imageUrl: testimonials.testimonial1,
-    quote:
-      "Best mouthguard I've ever used. I can finally breathe during hard sparring sessions.",
-  },
 ];
 
 export const FAQ_ITEMS: FaqItem[] = [

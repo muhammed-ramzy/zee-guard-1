@@ -1,4 +1,3 @@
-// import testimonial1 from "@/assets/images/testimonials/1.webp";
 import img0127 from "@/assets/images/testimonials/IMG_0127.webp";
 import img0128 from "@/assets/images/testimonials/IMG_0128.webp";
 import img0445 from "@/assets/images/testimonials/IMG_0445.webp";

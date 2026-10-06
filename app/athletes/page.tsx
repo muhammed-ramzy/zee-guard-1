@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Container, Section } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/typography";
 import { ChampionCard } from "@/components/ui/champion-card";
@@ -67,27 +66,6 @@ export default function AthletesPage() {
       <Section tone="raised">
         <Container className="flex flex-col gap-10" >
           <TestimonialsSection tone="raised"/>
-        {/* <div className={cn("grid grid-cols-1 gap-5 md:grid-cols-3 text-lg",  inter.className)}>
-          {HOME_TESTIMONIALS.map((t, i) => (
-            <blockquote
-              key={`${t.name}-${i}`}
-              className="flex flex-col gap-4 rounded-xl border border-white/10 bg-ink-850 p-6"
-            >
-              <p className={cn("italic leading-relaxed text-my-pink",)}>
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <footer className="flex items-center gap-3">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink-700 text-steel-400 overflow-hidden">
-                  {t.imageUrl ? <Image src={t.imageUrl} alt={t.quote}/> : <Image src={""} alt={t.quote}/>} 
-                </span>
-                <div>
-                  <p className="text-stone">{t.name}</p>
-                  <p className="text-my-pink">{t.role}</p>
-                </div>
-              </footer>
-            </blockquote>
-          ))}
-        </div> */}
          
           {/* <SectionHeading
             title="The Verdict"
