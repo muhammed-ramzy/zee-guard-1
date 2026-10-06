@@ -54,4 +54,4 @@ const designs = [
   createDesign("comic-based-symbioticss-identity", "Symbiotic Identity", symbioticIdentity),
 ];
 
-export default designs;
+export default designs.sort((a, b) => a.title.localeCompare(b.title));

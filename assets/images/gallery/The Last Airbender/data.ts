@@ -32,4 +32,5 @@ const designs = [
   createDesign("the-last-airbender-water-tribe", "Water Tribe", waterTribe),
 ];
 
-export default designs;
+export default designs.sort((a, b) => a.title.localeCompare(b.title));
+

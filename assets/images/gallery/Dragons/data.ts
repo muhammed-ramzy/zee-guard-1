@@ -22,4 +22,5 @@ const designs = [
   createDesign("dragons-wrath", "Dragon's Wrath", dragonsWrath),
 ];
 
-export default designs;
+export default designs.sort((a, b) => a.title.localeCompare(b.title));
+

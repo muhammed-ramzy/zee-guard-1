@@ -135,4 +135,4 @@ const designs = [
   },
 ];
 
-export default designs;
+export default designs.sort((a, b) => a.title.localeCompare(b.title));
