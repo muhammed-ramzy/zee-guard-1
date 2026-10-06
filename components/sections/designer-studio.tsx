@@ -2559,7 +2559,7 @@ export function DesignerStudio() {
         <CollapsibleSection title="Base Color" number={2} defaultOpen={true}>
           {isEliteEssentialSelected ? (
             <p className="text-sm font-semibold text-steel-300">
-              Transparent only
+              Upper mouthguard color is transparent only
             </p>
           ) : isFusionSelected ? (
             <div className="flex flex-col gap-4 sm:flex-row sm:gap-6 justify-between">
