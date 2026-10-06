@@ -7,7 +7,7 @@ import { DESIGN_CATEGORIES } from "@/constants/gallery";
 import { GALLERY_DESIGNS } from "@/assets/images/gallery/index";
 
 export function GalleryGrid() {
-  const [activeId, setActiveId] = useState("dragons");
+  const [activeId, setActiveId] = useState("comic-based");
 
   const filtered = useMemo(
     () => GALLERY_DESIGNS.filter((d) => d.categoryId === activeId),

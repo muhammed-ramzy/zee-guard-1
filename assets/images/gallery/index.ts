@@ -11,10 +11,10 @@ import reflectiveGold from "./Reflective Gold/data";
 import theLastAirbender from "./The Last Airbender/data";
 
 export const GALLERY_DESIGNS = [
+  ...comicBased,
   ...alAhly,
   ...anime,
   ...collection,
-  ...comicBased,
   ...dragons,
   ...fangsAndTeeth,
   ...flags,
