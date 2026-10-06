@@ -19,6 +19,7 @@ import {
 } from "@/constants/pricing";
 import {
   BASE_COLORS,
+  FONT_COLORS,
   GUARD_CENTER_X,
   GUARD_CENTER_Y,
   GUARD_PATH,
@@ -2170,9 +2171,7 @@ export function DesignerStudio() {
                         Color
                       </label>
                       <div className="mt-1 flex flex-wrap gap-2">
-                        {BASE_COLORS.filter(
-                          (color) => color.name !== "Transparent",
-                        ).map((c) => (
+                        {FONT_COLORS.map((c) => (
                           <button
                             key={c.name}
                             type="button"
@@ -2180,7 +2179,7 @@ export function DesignerStudio() {
                               updateEl(selectedEl.id, { color: c.hex })
                             }
                             className={cn(
-                              "h-10 w-10 rounded-full border-2 transition-transform hover:scale-110 sm:h-8 sm:w-8",
+                              "h-10 w-10 rounded-full border-2 transition-transform hover:scale-110 sm:h-8 sm:w-8 cursor-pointer",
                               selectedEl.color === c.hex
                                 ? "border-blaze-500"
                                 : "border-white/20",
