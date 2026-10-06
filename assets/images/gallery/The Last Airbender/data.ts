@@ -21,12 +21,12 @@ const designs = [
   createDesign("the-last-airbender-fire-prince", "Fire Prince", firePrince),
   createDesign(
     "the-last-airbender-fire-vs-water-1",
-    "Fire vs Water 1",
+    "Fire vs Water #1",
     fireVsWaterOne,
   ),
   createDesign(
     "the-last-airbender-fire-vs-water-2",
-    "Fire vs Water 2",
+    "Fire vs Water #2",
     fireVsWaterTwo,
   ),
   createDesign("the-last-airbender-water-tribe", "Water Tribe", waterTribe),

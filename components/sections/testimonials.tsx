@@ -30,7 +30,7 @@ export function TestimonialsSection({ tone = "base" }: { tone?: "base" | "raised
                       key={`${copy}-${index}`}
                       className="w-[min(68vw,15rem)] shrink-0 px-2 sm:w-64 lg:w-72"
                     >
-                      <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
+                      <div className="relative aspect-4/5 overflow-hidden rounded-xl">
                         <Image
                           src={photo}
                           alt={`ZeeGuard testimonial photo ${index + 1}`}

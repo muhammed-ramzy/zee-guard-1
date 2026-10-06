@@ -26,15 +26,15 @@ const createDesign = (id: string, title: string, image: typeof angola) => ({
 const designs = [
   createDesign("flags-angola", "Angola", angola),
   createDesign("flags-belgium", "Belgium", belgium),
-  createDesign("flags-egypt-1", "Egypt 1", egyptOne),
-  createDesign("flags-egypt-2", "Egypt 2", egyptTwo),
-  createDesign("flags-egypt-3", "Egypt 3", egyptThree),
-  createDesign("flags-egypt-4", "Egypt 4", egyptFour),
+  createDesign("flags-egypt-1", "Egypt #1", egyptOne),
+  createDesign("flags-egypt-2", "Egypt #2", egyptTwo),
+  createDesign("flags-egypt-3", "Egypt #3", egyptThree),
+  createDesign("flags-egypt-4", "Egypt #4", egyptFour),
   createDesign("flags-jordan", "Jordan", jordan),
-  createDesign("flags-ksa-1", "KSA 1", ksaOne),
-  createDesign("flags-ksa-2", "KSA 2", ksaTwo),
-  createDesign("flags-libya-1", "Libya 1", libyaOne),
-  createDesign("flags-libya-2", "Libya 2", libyaTwo),
+  createDesign("flags-ksa-1", "KSA #1", ksaOne),
+  createDesign("flags-ksa-2", "KSA #2", ksaTwo),
+  createDesign("flags-libya-1", "Libya #1", libyaOne),
+  createDesign("flags-libya-2", "Libya #2", libyaTwo),
   createDesign("flags-qatar", "Qatar", qatar),
 ];
 
