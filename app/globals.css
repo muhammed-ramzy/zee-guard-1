@@ -224,6 +224,26 @@
   @apply no-spinners;
 }
 
+@keyframes testimonials-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.testimonials-marquee-track {
+  animation: testimonials-marquee 55s linear infinite;
+}
+
+.testimonials-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonials-marquee-track {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
