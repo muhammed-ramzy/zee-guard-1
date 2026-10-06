@@ -234,13 +234,10 @@
   animation: testimonials-marquee 55s linear infinite;
 }
 
-.testimonials-marquee-track:hover {
-  animation-play-state: paused;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .testimonials-marquee-track {
-    animation: none;
+    animation-duration: 90s !important;
+    animation-iteration-count: infinite !important;
   }
 }
 
