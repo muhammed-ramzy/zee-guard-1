@@ -1,9 +1,12 @@
 import angola from "./ANGOLA.webp";
+import algeria from "./ALGERIA.webp";
 import belgium from "./BELGIUM.webp";
-import egyptOne from "./EGYPT1 R.webp";
+import cyprus from "./CYPRUS.webp";
+import egyptOne from "./EGYPT1.webp";
 import egyptTwo from "./EGYPT2.webp";
 import egyptThree from "./EGYPT3.webp";
 import egyptFour from "./EGYPT4.webp";
+import greece from "./GREECE.webp";
 import jordan from "./JORDAN.webp";
 import ksaOne from "./KSA1.webp";
 import ksaTwo from "./KSA2.webp";
@@ -24,12 +27,15 @@ const createDesign = (id: string, title: string, image: typeof angola) => ({
 });
 
 const designs = [
+  createDesign("flags-algeria", "Algeria", algeria),
   createDesign("flags-angola", "Angola", angola),
   createDesign("flags-belgium", "Belgium", belgium),
+  createDesign("flags-cyprus", "Cyprus", cyprus),
   createDesign("flags-egypt-1", "Egypt #1", egyptOne),
   createDesign("flags-egypt-2", "Egypt #2", egyptTwo),
   createDesign("flags-egypt-3", "Egypt #3", egyptThree),
   createDesign("flags-egypt-4", "Egypt #4", egyptFour),
+  createDesign("flags-greece", "Greece", greece),
   createDesign("flags-jordan", "Jordan", jordan),
   createDesign("flags-ksa-1", "KSA #1", ksaOne),
   createDesign("flags-ksa-2", "KSA #2", ksaTwo),
@@ -39,4 +45,3 @@ const designs = [
 ];
 
 export default designs.sort((a, b) => a.title.localeCompare(b.title));
-
