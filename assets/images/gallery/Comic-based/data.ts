@@ -1,4 +1,4 @@
-import batmanVsSuperman from "./Batman v Superman.webp";
+import batmanVsSuperman from "./Batman vs Superman.webp";
 import devilOfHellKitchen from "./Devil of Hell_s Kitchen.webp";
 import doctorStrange from "./Dr. Strange Sorcerer Supreme.webp";
 import friendlyNeighborhoodSpidey from "./Friendly Neighborhood Spiderman.webp";
