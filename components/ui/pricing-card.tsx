@@ -15,7 +15,7 @@ import { motion } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const BADGE_STYLES: Record<PricingTier["badgeVariant"], string> = {
-  essential: "bg-white/10 text-white",
+  essential: "bg-black/90 text-white",
   popular: "bg-blaze-500 text-white",
   pro: "bg-gold-500 text-ink-950",
 };

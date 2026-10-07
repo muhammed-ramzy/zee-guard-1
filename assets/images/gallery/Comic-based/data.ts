@@ -1,13 +1,12 @@
-import batmanVsSuperman from "./batman v superman.webp";
-import devilOfHellKitchen from "./Devil of Hell's Kitchen.webp";
+import batmanVsSuperman from "./Batman v Superman.webp";
+import devilOfHellKitchen from "./Devil of Hell_s Kitchen.webp";
 import doctorStrange from "./Dr. Strange Sorcerer Supreme.webp";
-import friendlyNeighborhoodSpidey from "./Friendly Neighborhood Spidey.webp";
+import friendlyNeighborhoodSpidey from "./Friendly Neighborhood Spiderman.webp";
 import hulkSmash from "./Hulk Smash.webp";
 import phoenixForce from "./Phoenix Force.webp";
 import darkKnight from "./The Dark Knight.webp";
 import venomOne from "./Venom1.webp";
 import venomTwo from "./Venom2.webp";
-import venomThree from "./Venom3.webp";
 import whySoSerious from "./WhySoSerious.webp";
 import symbioticIdentity from "./Symbiotic Identity.webp";
 
@@ -49,7 +48,6 @@ const designs = [
   createDesign("comic-based-dark-knight", "The Dark Knight", darkKnight),
   createDesign("comic-based-venom-1", "Venom #1", venomOne),
   createDesign("comic-based-venom-2", "Venom #2", venomTwo),
-  createDesign("comic-based-venom-3", "Venom #3", venomThree),
   createDesign("comic-based-why-so-serious", "Why So Serious", whySoSerious),
   createDesign("comic-based-symbioticss-identity", "Symbiotic Identity", symbioticIdentity),
 ];

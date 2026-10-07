@@ -17,7 +17,7 @@ export function GalleryCard({ design, className }: GalleryCardProps) {
     design.title.trim() ||
     design.alt?.trim() ||
     design.id.replace(/[-_]+/g, " ");
-  const whatsappMessage = `Hi, I'd like to order the ${designName} design.`;
+  const whatsappMessage = `Hi, I'd like to order the ${designName} design from ${design.categoryId} category.`;
 
   return (
     <motion.article
@@ -50,7 +50,7 @@ export function GalleryCard({ design, className }: GalleryCardProps) {
         <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/10 to-transparent" />
       </div>
 
-      {design.tag && (
+      {design.title && (
         <span className="absolute left-4 top-4 rounded-sm bg-gold-500 px-3 py-1 text-xs font-bold uppercase tracking-wide text-ink-950">
           {design.title}
         </span>
