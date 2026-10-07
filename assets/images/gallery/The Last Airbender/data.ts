@@ -9,7 +9,7 @@ const createDesign = (id: string, title: string, image: typeof fireNation) => ({
   title,
   subtitle: "",
   alt: `${title} mouthguard`,
-  tag: "",
+  tag: `${title} mouthguard`,
   categoryId: "the-last-airbender",
   image,
   featured: false,
@@ -33,4 +33,3 @@ const designs = [
 ];
 
 export default designs.sort((a, b) => a.title.localeCompare(b.title));
-

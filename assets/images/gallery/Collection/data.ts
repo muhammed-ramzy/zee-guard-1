@@ -223,4 +223,9 @@ const designs = [
   },
 ];
 
-export default designs.sort((a, b) => a.title.localeCompare(b.title));
+export default designs
+  .map((design) => ({
+    ...design,
+    tag: `${design.title || design.id} mouthguard`,
+  }))
+  .sort((a, b) => a.title.localeCompare(b.title));

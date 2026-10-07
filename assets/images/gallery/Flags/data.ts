@@ -19,7 +19,7 @@ const createDesign = (id: string, title: string, image: typeof angola) => ({
   title,
   subtitle: "",
   alt: `${title} mouthguard`,
-  tag: "",
+  tag: `${title} mouthguard`,
   categoryId: "flags",
   image,
   featured: false,

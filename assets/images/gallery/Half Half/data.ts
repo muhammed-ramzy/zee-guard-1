@@ -8,7 +8,7 @@ const createDesign = (id: string, title: string, image: typeof aboveView) => ({
   title,
   subtitle: "",
   alt: `${title} mouthguard`,
-  tag: "",
+  tag: `${title} mouthguard`,
   categoryId: "half-and-half",
   image,
   featured: false,
@@ -31,4 +31,3 @@ const designs = [
 ];
 
 export default designs.sort((a, b) => a.title.localeCompare(b.title));
-

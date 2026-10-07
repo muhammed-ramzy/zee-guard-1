@@ -8,7 +8,7 @@ const createDesign = (id: string, title: string, image: typeof dragonsOne) => ({
   title,
   subtitle: "",
   alt: `${title} mouthguard`,
-  tag: "",
+  tag: `${title} mouthguard`,
   categoryId: "dragons",
   image,
   featured: false,
@@ -23,4 +23,3 @@ const designs = [
 ];
 
 export default designs.sort((a, b) => a.title.localeCompare(b.title));
-

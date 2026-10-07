@@ -16,7 +16,7 @@ const createDesign = (id: string, title: string, image: typeof whySoSerious) => 
   title,
   subtitle: "",
   alt: `${title} mouthguard`,
-  tag: "",
+  tag: `${title} mouthguard`,
   categoryId: "comic-based",
   image,
   featured: false,
