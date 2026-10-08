@@ -1,9 +1,8 @@
-import aboveView from "./Above view.webp";
 import batmanVsSuperman from "./Batman v Superman.webp";
 import prettyFierce from "./Pretty Fierce.webp";
 import sweetAndSinister from "./Sweet & Sinister.webp";
 
-const createDesign = (id: string, title: string, image: typeof aboveView) => ({
+const createDesign = (id: string, title: string, image: typeof batmanVsSuperman) => ({
   id,
   title,
   subtitle: "",
@@ -16,10 +15,10 @@ const createDesign = (id: string, title: string, image: typeof aboveView) => ({
 });
 
 const designs = [
-  createDesign("half-and-half-above-view", "Above view", aboveView),
+  createDesign("half-and-half-dual-personality", "dual personality", sweetAndSinister),
   createDesign(
     "half-and-half-batman-v-superman",
-    "batman v superman gallery",
+    "batman vs superman",
     batmanVsSuperman,
   ),
   createDesign("half-and-half-pretty-fierce", "Pretty Fierce", prettyFierce),
