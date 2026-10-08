@@ -1,5 +1,5 @@
 import aboveView from "./Above view.webp";
-import batmanVsSuperman from "./batman v superman gallery.webp";
+import batmanVsSuperman from "./Batman v Superman.webp";
 import prettyFierce from "./Pretty Fierce.webp";
 import sweetAndSinister from "./Sweet & Sinister.webp";
 
