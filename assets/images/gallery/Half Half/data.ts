@@ -15,7 +15,6 @@ const createDesign = (id: string, title: string, image: typeof batmanVsSuperman)
 });
 
 const designs = [
-  createDesign("half-and-half-dual-personality", "dual personality", sweetAndSinister),
   createDesign(
     "half-and-half-batman-v-superman",
     "batman vs superman",

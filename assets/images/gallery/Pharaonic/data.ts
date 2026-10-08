@@ -1,44 +1,29 @@
-import img1 from "./1.webp";
-import img2 from "./2.webp";
-import img3 from "./3.webp";
+import faraone from "./Faraone.png";
+import fr3on from "./FR3ON.png";
+import eyeOfHorus from "./GOAT (Eye of horus).png";
+import pharaonicSymbols from "./Omar (Pharaonic Symbols).png";
 
+const createDesign = (id: string, title: string, image: typeof fr3on) => ({
+  id,
+  title,
+  subtitle: "",
+  alt: `${title} mouthguard`,
+  tag: `${title} mouthguard`,
+  categoryId: "pharaonic",
+  image,
+  featured: false,
+  size: "small",
+});
 
 const designs = [
-  {
-    id: "pharaonic-1",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "pharaonic",
-    image: img1,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "pharaonic-2",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "pharaonic",
-    image: img2,
-    featured: false,
-    size: "small",
-  },
-  {
-    id: "pharaonic-3",
-    title: "",
-    subtitle: "",
-    tag: "",
-    categoryId: "pharaonic",
-    image: img3,
-    featured: false,
-    size: "small",
-  },
+  createDesign("pharaonic-fr3on", "FR3ON", fr3on),
+  createDesign("pharaonic-faraone", "Faraone", faraone),
+  createDesign("pharaonic-eye-of-horus", "GOAT (Eye of Horus)", eyeOfHorus),
+  createDesign(
+    "pharaonic-symbols",
+    "Omar (Pharaonic Symbols)",
+    pharaonicSymbols,
+  ),
 ];
 
-export default designs
-  .map((design) => ({
-    ...design,
-    tag: `${design.title || design.id} mouthguard`,
-  }))
-  .sort((a, b) => a.title.localeCompare(b.title));
+export default designs.sort((a, b) => a.title.localeCompare(b.title));
