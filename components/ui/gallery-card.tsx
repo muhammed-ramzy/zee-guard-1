@@ -55,21 +55,21 @@ export function GalleryCard({ design, className }: GalleryCardProps) {
           {design.title}
         </span>
       )}
-
-          <a
-            href={`https://wa.me/201124081447?text=${encodeURIComponent(whatsappMessage)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Order ${designName} on WhatsApp`}
-            title={`Order ${designName} on WhatsApp`}
-            className="absolute bottom-3 right-3 z-10 flex h-11 items-center justify-center gap-2 rounded-full border border-white/15 bg-black/75 px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_14px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-200 hover:border-white/25 hover:bg-black/90 hover:shadow-[0_4px_14px_rgba(0,0,0,0.5)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blaze-400"
-          >
-            <FontIcon fontIcon="whatsapp" className="" />
-            <span className="text-xs font-bold uppercase tracking-wide text-white">
-              Order {designName}
-            </span>
-          </a>
-
+      {design.categoryId !== "lower-arch-imprints" && (
+        <a
+          href={`https://wa.me/201124081447?text=${encodeURIComponent(whatsappMessage)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Order ${designName} on WhatsApp`}
+          title={`Order ${designName} on WhatsApp`}
+          className="absolute bottom-3 right-3 z-10 flex h-11 items-center justify-center gap-2 rounded-full border border-white/15 bg-black/75 px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_4px_14px_rgba(0,0,0,0.4)] backdrop-blur-xl transition-all duration-200 hover:border-white/25 hover:bg-black/90 hover:shadow-[0_4px_14px_rgba(0,0,0,0.5)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blaze-400"
+        >
+          <FontIcon fontIcon="whatsapp" className="" />
+          <span className="text-xs font-bold uppercase tracking-wide text-white">
+            Order {designName}
+          </span>
+        </a>
+      )}
     </motion.article>
   );
 }
